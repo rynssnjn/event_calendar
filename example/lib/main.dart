@@ -42,52 +42,31 @@ class _MyHomePageState extends State<MyHomePage> {
     List<CalendarEvent> eventsList = List<CalendarEvent>();
 
     CalendarEvent event = CalendarEvent();
-    event.title = "Meeting";
+    event.title = "Meeting 1";
     event.startTime = DateTime(2020, 11, 01);
     event.endTime = DateTime(2020, 11, 10);
     event.bgColor = Colors.redAccent;
     eventsList.add(event);
 
     event = CalendarEvent();
-    event.title = "MeetingMeetingMeeting";
+    event.title = "Meeting 2";
     event.startTime = DateTime(2020, 11, 09);
-    event.endTime = DateTime(2020, 11, 09);
+    event.endTime = DateTime(2020, 11, 11);
     event.bgColor = Colors.redAccent;
     eventsList.add(event);
 
     event = CalendarEvent();
-    event.title = "MeetingMeetingMeeting";
+    event.title = "Meeting 3";
     event.startTime = DateTime(2020, 11, 09);
-    event.endTime = DateTime(2020, 11, 09);
+    event.endTime = DateTime(2020, 11, 11);
     event.bgColor = Colors.green;
     eventsList.add(event);
 
     event = CalendarEvent();
-    event.title = "Meeting2";
-    event.startTime = DateTime.now();
+    event.title = "Meeting 4";
+    event.startTime = DateTime.now().add(Duration(days: 1));
     event.endTime = DateTime.now().add(Duration(days: 1));
-    event.bgColor = Colors.green;
-    eventsList.add(event);
-
-    event = CalendarEvent();
-    event.title = "Meeting2";
-    event.startTime = DateTime.now();
-    event.endTime = DateTime.now().add(Duration(days: 2));
     event.bgColor = Colors.orange;
     eventsList.add(event);
-
-    event = CalendarEvent();
-    event.title = "Meeting3";
-    event.startTime = DateTime(2020, 11, 01);
-    event.endTime = DateTime(2019, 11, 10);
-    event.bgColor = Colors.redAccent;
-    eventsList.add(event);
-
-    event = CalendarEvent();
-    event.title = "Meeting2";
-    event.startTime = DateTime(2019, 11, 06);
-    event.endTime = DateTime(2019, 11, 15);
-    eventsList.add(event);
-    CalendarEvent.setListAndUpdateMap(eventsList);
   }
 }

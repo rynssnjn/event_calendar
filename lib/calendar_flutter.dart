@@ -42,7 +42,6 @@ class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     initDimensions();
-    // return Container(color: Colors.white, child: buildCalendarWithEvents(context));
     return Container(
       color: Colors.white,
       child: Column(
@@ -65,9 +64,6 @@ class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProvid
     );
   }
 
-/////////////////////////////////////////
-  ///--------UI methods----------//////
-/////////////////////////////////////////
   /// creates widget with list of days from Sunday to Saturday in a row.
   Widget getWeekDaysView() {
     return Container(
@@ -77,15 +73,17 @@ class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProvid
         children: <Widget>[
           for (String day in getWeekDays())
             SizedBox(
-                width: itemWidth,
-                child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 4),
-                    child: Text(
-                      day,
-                      style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.black),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    )))
+              width: itemWidth,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  day,
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.black),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -93,18 +91,19 @@ class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProvid
 
   Widget monthBuilder() {
     return PageView.builder(
-        controller: _controller,
-        onPageChanged: (index) {
-          setCurrentDate(index);
-        },
-        itemBuilder: (context, index) {
-          setCurrentDate(index);
-          initDimensions();
-          return CalendarMonthWidget(
-            dayWidgetSize: Size(itemWidth, itemHeight),
-            currentMonthDate: _currentDate,
-          );
-        });
+      controller: _controller,
+      onPageChanged: (index) {
+        setCurrentDate(index);
+      },
+      itemBuilder: (context, index) {
+        setCurrentDate(index);
+        initDimensions();
+        return CalendarMonthWidget(
+          dayWidgetSize: Size(itemWidth, itemHeight),
+          currentMonthDate: _currentDate,
+        );
+      },
+    );
   }
 
   void setCurrentDate(int index) {
@@ -119,9 +118,6 @@ class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProvid
     _dateStreamController.add(0); //just to notify builder
   }
 
-/////////////////////////////////////////
-  ///--------helper methods----------//////
-/////////////////////////////////////////
   List<String> getWeekDays() {
     return widget.weekDays ?? ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
   }

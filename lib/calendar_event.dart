@@ -14,6 +14,8 @@ class CalendarEvent {
 
   static List<CalendarEvent> get eventsList => _events;
 
+  Color get color => bgColor ?? Colors.grey;
+
   static Map<String, List<int>> _eventsDict;
 
   static void setListAndUpdateMap(List<CalendarEvent> events) {
@@ -51,15 +53,6 @@ class CalendarEvent {
 
   static String _getKeyFrom(int month, int year) {
     return '$month-$year';
-  }
-
-  bool isImageType() {
-    return (extension != null &&
-        (extension == "jpeg" || extension == "jpg" || extension == "png" || extension == "gif"));
-  }
-
-  Color getEventColor() {
-    return bgColor ?? Colors.grey;
   }
 }
 

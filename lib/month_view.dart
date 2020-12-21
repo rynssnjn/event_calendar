@@ -1,3 +1,5 @@
+import 'package:event_calendar/day_container.dart';
+import 'package:event_calendar/event_item.dart';
 import 'package:flutter/material.dart';
 import 'calendar_event.dart';
 import 'calendar_utils.dart';
@@ -63,14 +65,14 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
     for (int i = 0; i < 7; i++, currentDayNumber++) {
       final List<Widget> eventWidgetsInDay = [];
       if (currentDayNumber <= 0 || currentDayNumber > getNumberOfDays()) {
-        //adding empty views for invalid positions in calendar
-        dayViewWidgets.add(getEmptyDay());
+        break;
       } else {
         //get list of events on this date sorted according to their start date and add them to stack or to a dayview
         final int numberOfEventsToDisplay = (widget.dayWidgetSize.height - dateTxtHt) ~/ eventItemHt;
         final DateTime currentDay =
             DateTime(widget.currentMonthDate.year, widget.currentMonthDate.month, currentDayNumber);
         final List<CalendarEvent> sorted = sortedAccordingToTheDuration(currentDay);
+
         if (numberOfEventsToDisplay != 0) {
           for (CalendarEvent event in sorted) {
             final DateTime startDate = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
@@ -80,7 +82,7 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
               break;
             }
             if (event.positionInStack >= 0) {
-              eventWidgetsInDay.add(getEventPlaceHolder());
+              eventWidgetsInDay.add(SizedBox(height: eventItemHt + 15));
               continue;
             } else if ((startDate.difference(currentDay).inDays.abs() > 0 ||
                     endDate.difference(currentDay).inDays.abs() > 0) &&
@@ -99,7 +101,8 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
                   }
                   eventWidgetsInDay.insert(
                     position,
-                    getEventItem(
+                    EventItem(
+                      onTap: () => print('TEST'),
                       event: event,
                     ),
                   );
@@ -110,25 +113,19 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
           }
         }
         //added a day with event widgets
-        dayViewWidgets.add(getDayWidget(currentDay, eventWidgetsInDay));
-        // if (sorted.length - numberOfEventsToDisplay > 0) {
-        //   const size = 25.0;
-        //   stackWidgets.add(Positioned(
-        //     left: i * widget.dayWidgetSize.width,
-        //     top: 0,
-        //     width: size,
-        //     child: XmoreWidget(
-        //       sorted.length - numberOfEventsToDisplay,
-        //       size: size,
-        //     ),
-        //   ));
-        // }
+        dayViewWidgets.add(DayContainer(
+          day: currentDay,
+          currentMonthDate: widget.currentMonthDate,
+          eventWidgets: eventWidgetsInDay,
+          width: widget.dayWidgetSize.width,
+        ));
       }
     }
     return Stack(
       children: <Widget>[
         Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: dayViewWidgets,
         ),
         ...stackWidgets,
@@ -151,89 +148,20 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
           (getNumberOfDays() - currentDayNumber) + 1 >= (7 - i) ? 7 - i : (getNumberOfDays() - currentDayNumber) + 1;
       final double width =
           (eventDuration <= noOfDaysLeftInWeek ? eventDuration : noOfDaysLeftInWeek) * widget.dayWidgetSize.width;
-      stackWidgets.add(Positioned(
+      stackWidgets.add(
+        Positioned(
           left: i * widget.dayWidgetSize.width,
-          top: position * eventItemHt + dateTxtHt,
+          top: position * (eventItemHt + 20) + dateTxtHt,
           width: width,
-          child: IgnorePointer(child: getEventItem(event: event, width: width))));
-      eventWidgetsInDay.add(getEventPlaceHolder());
+          child: EventItem(
+            onTap: () => print('TEST'),
+            event: event,
+          ),
+        ),
+      );
+      eventWidgetsInDay.add(SizedBox(height: eventItemHt + 15));
       break; //break after the event is added
-      //
     }
-  }
-
-  /// returns an empty view - the invalid days at the start and end of the month view with no date in them
-  Widget getEmptyDay() {
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        border: Border.all(color: Colors.grey[300], width: 0.35),
-        color: Colors.white,
-      ),
-      width: widget.dayWidgetSize.width,
-      height: widget.dayWidgetSize.height,
-      padding: EdgeInsets.only(top: 5),
-    );
-  }
-
-  /// creates place holders which acts as dummy events -- to avoid overlapping a day events with events that
-  /// range between 2 to any no.of days
-  Widget getEventPlaceHolder() {
-    return SizedBox(
-      width: widget.dayWidgetSize.width,
-      height: eventItemHt,
-    );
-  }
-
-  /// return a single event widget that might be added to a day view or else
-  /// to stack to display as a continuous UI event through days
-  Widget getEventItem({@required CalendarEvent event, double width}) {
-    return EventItem(
-      eventItemHt,
-      width ?? widget.dayWidgetSize.width,
-      event,
-    );
-  }
-
-  /// returns a [day] view(contains date and events on particular date) in a week by adding the [eventWidgets]
-  Widget getDayWidget(DateTime day, List<Widget> eventWidgets) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          border: Border.all(color: Colors.grey[300], width: 0.35),
-          color: Colors.white,
-        ),
-        width: widget.dayWidgetSize.width,
-        height: widget.dayWidgetSize.height,
-        padding: EdgeInsets.only(top: 5),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            getDateWidget(day.day),
-            ...eventWidgets,
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// creates and returns a text view with [date] as the text in it.
-  ///
-  /// if date is today then it returns a circular widget with [date] as text and background color as #FF1E90FF
-  Widget getDateWidget(int date) {
-    DateTime now = DateTime.now();
-    bool isToday =
-        (now.day == date && now.month == widget.currentMonthDate.month && now.year == widget.currentMonthDate.year);
-    return getCircularWidget(
-        padding: EdgeInsets.all(0),
-        child: Text('$date',
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                .copyWith(color: isToday ? Colors.white : Colors.black, fontSize: 13)),
-        fillColor: isToday ? Color(0xFF1E90FF) : Colors.transparent);
   }
 
   List<CalendarEvent> sortedAccordingToTheDuration(DateTime date) {
@@ -245,9 +173,7 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
       if (date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0) {
         if (events.contains(event)) continue;
         events.add(event);
-        if (event.positionInStack >= 0) {
-          currentDayEventPositionsInStack.add(event.positionInStack);
-        }
+        currentDayEventPositionsInStack.add(event.positionInStack);
       }
     }
     events.sort(comparator);
@@ -301,108 +227,5 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
 
   int getNumberOfDays() {
     return getNumberOfDaysInMonth(widget.currentMonthDate);
-  }
-}
-
-class EventItem extends StatelessWidget {
-  const EventItem(
-    this.height,
-    this.width,
-    this.event, {
-    this.horizontalPadding = 4,
-    this.verticalPadding = 4,
-    this.isStart = false,
-  });
-
-  final int verticalPadding;
-  final int horizontalPadding;
-
-  final double height;
-  final double width;
-  final CalendarEvent event;
-  final bool isStart;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Container(
-        color: event.getEventColor().withOpacity(0.08),
-        child: Row(
-          children: [
-            Container(
-              width: 2,
-              color: event.getEventColor(),
-            ),
-            Expanded(
-              child: Text(
-                event.title,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 14),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class XmoreWidget extends StatelessWidget {
-  const XmoreWidget(this.xmoreVal, {this.size = 25});
-
-  final int xmoreVal;
-
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size(size, size),
-      child: SizedBox(
-        width: size,
-        height: size,
-        child: Stack(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: xmoreVal > 9 ? 0 : 0.5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  '+$xmoreVal',
-                  style: Theme.of(context).textTheme.headline4.copyWith(
-                        color: Colors.white,
-                        fontSize: 11,
-                      ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-      painter: TrianglePainter(),
-    );
-  }
-}
-
-class TrianglePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Paint paintBrush = Paint();
-    paintBrush.color = Color(0xFFffc422).withAlpha(150);
-
-    //reversed triangle
-    final reversePath = Path();
-    reversePath.lineTo(0, 0);
-    reversePath.lineTo(size.width, 0);
-    reversePath.lineTo(0, size.width);
-    reversePath.lineTo(0, 0);
-    reversePath.close();
-
-    canvas.drawPath(reversePath, paintBrush);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }
