@@ -8,6 +8,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # calendar_flutter : ^1.0.5
+
+  cupertino_icons: ^0.1.2
+
   event_calendar:
     path: ../
 
