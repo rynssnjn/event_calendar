@@ -64,9 +64,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
     event = CalendarEvent();
     event.title = "Meeting 4";
+    event.startTime = DateTime.now().subtract(Duration(days: 1));
+    event.endTime = DateTime.now().add(Duration(days: 1));
+    event.bgColor = Colors.purple;
+    eventsList.add(event);
+
+    event = CalendarEvent();
+    event.title = "Meeting 5";
     event.startTime = DateTime.now().add(Duration(days: 1));
     event.endTime = DateTime.now().add(Duration(days: 1));
     event.bgColor = Colors.orange;
     eventsList.add(event);
+
+    CalendarEvent.setListAndUpdateMap(eventsList);
   }
 }
