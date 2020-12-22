@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 class EventItem extends StatelessWidget {
   const EventItem({
-    @required this.onTap,
     this.event,
     this.horizontalPadding = 4,
     this.verticalPadding = 4,
@@ -13,15 +12,19 @@ class EventItem extends StatelessWidget {
   final int verticalPadding;
   final int horizontalPadding;
 
-  final CalendarEvent event;
-  final VoidCallback onTap;
+  final EventModel event;
   final TextStyle style;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return InkWell(
-      onTap: onTap,
+      onTap: () {
+        if (event.onSelect != null)
+          event.onSelect();
+        else
+          print('${event.title} tapped');
+      },
       child: Container(
         decoration: BoxDecoration(
           border: Border(

@@ -1,37 +1,44 @@
 import 'package:flutter/material.dart';
 
 class MoreEvents extends StatelessWidget {
-  const MoreEvents(this.value, {this.size = 25});
+  const MoreEvents({
+    this.onTap,
+    this.value,
+    this.size = 25,
+  });
 
   final int value;
-
   final double size;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return CustomPaint(
       size: Size(size, size),
-      child: SizedBox(
-        width: size,
-        height: size,
-        child: Stack(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: value > 9 ? 0 : 0.5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  '+$value',
-                  style: textTheme.headline4.copyWith(
-                    color: Colors.white,
-                    fontSize: 11,
+      child: InkWell(
+        onTap: onTap,
+        child: SizedBox(
+          width: size,
+          height: size,
+          child: Stack(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: value > 9 ? 0 : 0.5),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    '+$value',
+                    style: textTheme.headline4.copyWith(
+                      color: Colors.white,
+                      fontSize: 11,
+                    ),
+                    maxLines: 2,
                   ),
-                  maxLines: 2,
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
       painter: _TrianglePainter(),

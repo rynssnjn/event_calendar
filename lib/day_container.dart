@@ -6,7 +6,7 @@ class DayContainer extends StatelessWidget {
     this.eventWidgets,
     this.currentMonthDate,
     this.width,
-    this.height = 155,
+    this.height = 158,
   });
 
   final DateTime day;
