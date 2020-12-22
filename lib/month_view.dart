@@ -51,18 +51,17 @@ class _MonthViewState extends State<MonthView> {
     );
   }
 
-  ///creates a week view by creating each day's view in a week
-  ///
-  ///[dayViewWidgets] holds the day widgets which themselves hold the event widgets which happen only on paticular day
-  ///
-  ///[stackWidgets] holds the event widgets which range accross different dates
-  ///
-  ///[eventWidgetsInDay] events that happen on single day and also in some cases like the day is first day of week and an event that occurs on more days but end on this day will also be added to this
-
+  /// Creates a week view by creating each day's view in a week
+  /// [dayViewWidgets] holds the day widgets which themselves hold the event widgets
+  /// which happen only on paticular day
+  /// [stackWidgets] holds the event widgets which range accross different dates
+  /// [eventWidgetsInDay] events that happen on single day and also in some cases like
+  /// the day is first day of week and an event that occurs on more days but end on this
+  /// day will also be added to this
   Widget createChildren(int currentDayNumber) {
     final List<Widget> dayViewWidgets = [];
     final List<Widget> stackWidgets = [];
-    //creating 7 days
+    // creating 7 days
     for (int i = 0; i < 7; i++, currentDayNumber++) {
       final List<Widget> eventWidgetsInDay = [];
       if (currentDayNumber <= 0 || currentDayNumber > getNumberOfDays()) {
@@ -71,7 +70,7 @@ class _MonthViewState extends State<MonthView> {
           padding: EdgeInsets.only(top: 5),
         ));
       } else {
-        //get list of events on this date sorted according to their start date and add them to stack or to a dayview
+        // get list of events on this date sorted according to their start date and add them to stack or to a dayview
         final int numberOfEventsToDisplay = (widget.dayWidgetSize.height - dateTxtHt) ~/ eventItemHt;
         final DateTime currentDay =
             DateTime(widget.currentMonthDate.year, widget.currentMonthDate.month, currentDayNumber);
@@ -113,7 +112,7 @@ class _MonthViewState extends State<MonthView> {
             }
           }
         }
-        //added a day with event widgets
+        // added a day with event widgets
         dayViewWidgets.add(DayContainer(
           day: currentDay,
           currentMonthDate: widget.currentMonthDate,

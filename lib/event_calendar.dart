@@ -111,7 +111,7 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
           ),
           Container(
             padding: EdgeInsets.symmetric(vertical: 12.0),
-            color: Color(0x551A609F),
+            color: Color(0xff509D56),
             child: Row(
               children: <Widget>[
                 for (String day in _weekDays)
@@ -121,7 +121,7 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
                       padding: EdgeInsets.symmetric(horizontal: 4),
                       child: Text(
                         day,
-                        style: textTheme.bodyText2.copyWith(color: Colors.black),
+                        style: textTheme.bodyText2.copyWith(color: Colors.white),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         textAlign: TextAlign.center,

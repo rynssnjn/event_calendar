@@ -67,7 +67,7 @@ class _DateWidget extends StatelessWidget {
       height: 24,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isToday ? Color(0xFF1E90FF) : Colors.transparent,
+        color: isToday ? Color(0xff509D56) : Colors.transparent,
       ),
       child: Center(
         child: Text(

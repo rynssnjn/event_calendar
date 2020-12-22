@@ -35,7 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CALENDAR'),
+        title: Text('Test Calendar'),
+        backgroundColor: Color(0xff509D56),
       ),
       body: EventCalendar(
         weekDays: ['So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.'],
