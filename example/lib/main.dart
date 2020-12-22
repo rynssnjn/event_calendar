@@ -44,35 +44,35 @@ class _MyHomePageState extends State<MyHomePage> {
     CalendarEvent event = CalendarEvent();
     event.title = "Meeting 1";
     event.startTime = DateTime(2020, 11, 01);
-    event.endTime = DateTime(2020, 11, 10);
+    event.endTime = DateTime(2020, 12, 10);
     event.bgColor = Colors.redAccent;
     eventsList.add(event);
 
     event = CalendarEvent();
     event.title = "Meeting 2";
-    event.startTime = DateTime(2020, 11, 09);
-    event.endTime = DateTime(2020, 11, 11);
-    event.bgColor = Colors.redAccent;
+    event.startTime = DateTime(2020, 11, 01);
+    event.endTime = DateTime(2020, 12, 10);
+    event.bgColor = Colors.purple;
     eventsList.add(event);
 
     event = CalendarEvent();
     event.title = "Meeting 3";
-    event.startTime = DateTime(2020, 11, 09);
-    event.endTime = DateTime(2020, 11, 11);
+    event.startTime = DateTime(2020, 11, 01);
+    event.endTime = DateTime(2020, 12, 10);
     event.bgColor = Colors.green;
     eventsList.add(event);
 
     event = CalendarEvent();
     event.title = "Meeting 4";
-    event.startTime = DateTime.now().subtract(Duration(days: 1));
-    event.endTime = DateTime.now().add(Duration(days: 1));
-    event.bgColor = Colors.purple;
+    event.startTime = DateTime(2020, 12, 01);
+    event.endTime = DateTime(2020, 12, 09);
+    event.bgColor = Colors.orange;
     eventsList.add(event);
 
     event = CalendarEvent();
     event.title = "Meeting 5";
-    event.startTime = DateTime.now().add(Duration(days: 1));
-    event.endTime = DateTime.now().add(Duration(days: 1));
+    event.startTime = DateTime(2020, 12, 09);
+    event.endTime = DateTime(2020, 12, 09);
     event.bgColor = Colors.orange;
     eventsList.add(event);
 

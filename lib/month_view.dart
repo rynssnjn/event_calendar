@@ -65,7 +65,10 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
     for (int i = 0; i < 7; i++, currentDayNumber++) {
       final List<Widget> eventWidgetsInDay = [];
       if (currentDayNumber <= 0 || currentDayNumber > getNumberOfDays()) {
-        break;
+        dayViewWidgets.add(Container(
+          width: widget.dayWidgetSize.width,
+          padding: EdgeInsets.only(top: 5),
+        ));
       } else {
         //get list of events on this date sorted according to their start date and add them to stack or to a dayview
         final int numberOfEventsToDisplay = (widget.dayWidgetSize.height - dateTxtHt) ~/ eventItemHt;
