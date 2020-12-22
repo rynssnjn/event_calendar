@@ -2,7 +2,7 @@ import 'package:event_calendar/day_container.dart';
 import 'package:event_calendar/event_item.dart';
 import 'package:event_calendar/more_events.dart';
 import 'package:flutter/material.dart';
-import 'calendar_event.dart';
+import 'event_model.dart';
 import 'calendar_utils.dart';
 
 final double dateTxtHt = 30;

@@ -1,5 +1,5 @@
-import 'package:event_calendar/calendar_event.dart';
 import 'package:event_calendar/event_calendar.dart';
+import 'package:event_calendar/event_model.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('CALENDAR'),
       ),
       body: EventCalendar(
-        weekDays: ['Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.', 'So.'],
+        weekDays: ['So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.'],
         calendarSize: MediaQuery.of(context).size,
       ),
     );
@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
     List<EventModel> events = List<EventModel>();
 
     EventModel event = EventModel(
-      onSelect: () => print('Test1'),
+      onSelect: () => print('Action Tapped: Meeting 1'),
       title: 'Meeting 1',
       startTime: DateTime(2020, 11, 01),
       endTime: DateTime(2020, 12, 10),
@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
     events.add(event);
 
     EventModel event2 = EventModel(
-      onSelect: () => print('Test2'),
+      onSelect: () => print('Action Tapped: Meeting 2'),
       title: 'Meeting 2',
       startTime: DateTime(2020, 11, 01),
       endTime: DateTime(2020, 12, 10),
@@ -128,6 +128,22 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: Color(0xff31C987),
     );
     events.add(event10);
+
+    EventModel event11 = EventModel(
+      title: 'Meeting 11',
+      startTime: DateTime(2020, 12, 13),
+      endTime: DateTime(2020, 12, 18),
+      backgroundColor: Color(0xff31C987),
+    );
+    events.add(event11);
+
+    EventModel event12 = EventModel(
+      title: 'Meeting 12',
+      startTime: DateTime(2020, 12, 15),
+      endTime: DateTime(2020, 12, 22),
+      backgroundColor: Color(0xff892486),
+    );
+    events.add(event12);
 
     EventModel.setListAndUpdateMap(events);
   }

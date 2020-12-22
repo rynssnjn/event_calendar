@@ -1,4 +1,4 @@
-import 'package:event_calendar/calendar_event.dart';
+import 'package:event_calendar/event_model.dart';
 import 'package:flutter/material.dart';
 
 class EventItem extends StatelessWidget {

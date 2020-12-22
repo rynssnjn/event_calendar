@@ -19,27 +19,22 @@ class MoreEvents extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: SizedBox(
-          width: size,
-          height: size,
-          child: Stack(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: value > 9 ? 0 : 0.5),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    '+$value',
-                    style: textTheme.headline4.copyWith(
-                      color: Colors.white,
-                      fontSize: 11,
-                    ),
-                    maxLines: 2,
+            width: size,
+            height: size,
+            child: Padding(
+              padding: EdgeInsets.only(top: value > 9 ? 0 : 0.5),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  '+$value',
+                  style: textTheme.headline4.copyWith(
+                    color: Colors.white,
+                    fontSize: 11,
                   ),
+                  maxLines: 2,
                 ),
-              )
-            ],
-          ),
-        ),
+              ),
+            )),
       ),
       painter: _TrianglePainter(),
     );
