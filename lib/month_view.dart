@@ -1,28 +1,29 @@
 import 'package:event_calendar/day_container.dart';
 import 'package:event_calendar/event_item.dart';
+import 'package:event_calendar/more_events.dart';
 import 'package:flutter/material.dart';
-import 'calendar_event.dart';
+import 'event_model.dart';
 import 'calendar_utils.dart';
 
 final double dateTxtHt = 30;
 final double eventItemHt = 20;
 
-class CalendarMonthWidget extends StatefulWidget {
+class MonthView extends StatefulWidget {
   final DateTime currentMonthDate;
   final Size dayWidgetSize;
 
-  CalendarMonthWidget({
+  MonthView({
     @required this.currentMonthDate,
     @required this.dayWidgetSize,
   });
 
   @override
-  _CalendarMonthWidgetState createState() => _CalendarMonthWidgetState();
+  _MonthViewState createState() => _MonthViewState();
 }
 
-class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
+class _MonthViewState extends State<MonthView> {
   ///holds the list of events in currentweek
-  List<CalendarEvent> eventsInCurrentWeek;
+  List<EventModel> eventsInCurrentWeek;
 
   /// holds the stack positions which are filled w.r.t current day events
   List<int> currentDayEventPositionsInStack = List();
@@ -50,31 +51,33 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
     );
   }
 
-  ///creates a week view by creating each day's view in a week
-  ///
-  ///[dayViewWidgets] holds the day widgets which themselves hold the event widgets which happen only on paticular day
-  ///
-  ///[stackWidgets] holds the event widgets which range accross different dates
-  ///
-  ///[eventWidgetsInDay] events that happen on single day and also in some cases like the day is first day of week and an event that occurs on more days but end on this day will also be added to this
-
+  /// Creates a week view by creating each day's view in a week
+  /// [dayViewWidgets] holds the day widgets which themselves hold the event widgets
+  /// which happen only on paticular day
+  /// [stackWidgets] holds the event widgets which range accross different dates
+  /// [eventWidgetsInDay] events that happen on single day and also in some cases like
+  /// the day is first day of week and an event that occurs on more days but end on this
+  /// day will also be added to this
   Widget createChildren(int currentDayNumber) {
     final List<Widget> dayViewWidgets = [];
     final List<Widget> stackWidgets = [];
-    //creating 7 days
+    // creating 7 days
     for (int i = 0; i < 7; i++, currentDayNumber++) {
       final List<Widget> eventWidgetsInDay = [];
       if (currentDayNumber <= 0 || currentDayNumber > getNumberOfDays()) {
-        break;
+        dayViewWidgets.add(Container(
+          width: widget.dayWidgetSize.width,
+          padding: EdgeInsets.only(top: 5),
+        ));
       } else {
-        //get list of events on this date sorted according to their start date and add them to stack or to a dayview
+        // get list of events on this date sorted according to their start date and add them to stack or to a dayview
         final int numberOfEventsToDisplay = (widget.dayWidgetSize.height - dateTxtHt) ~/ eventItemHt;
         final DateTime currentDay =
             DateTime(widget.currentMonthDate.year, widget.currentMonthDate.month, currentDayNumber);
-        final List<CalendarEvent> sorted = sortedAccordingToTheDuration(currentDay);
+        final List<EventModel> sorted = sortedAccordingToTheDuration(currentDay);
 
         if (numberOfEventsToDisplay != 0) {
-          for (CalendarEvent event in sorted) {
+          for (EventModel event in sorted) {
             final DateTime startDate = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
             final DateTime endDate = DateTime(event.endTime.year, event.endTime.month, event.endTime.day);
             if (eventWidgetsInDay.length == numberOfEventsToDisplay &&
@@ -101,10 +104,7 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
                   }
                   eventWidgetsInDay.insert(
                     position,
-                    EventItem(
-                      onTap: () => print('TEST'),
-                      event: event,
-                    ),
+                    EventItem(event: event),
                   );
                   break;
                 }
@@ -112,13 +112,27 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
             }
           }
         }
-        //added a day with event widgets
+        // added a day with event widgets
         dayViewWidgets.add(DayContainer(
           day: currentDay,
           currentMonthDate: widget.currentMonthDate,
           eventWidgets: eventWidgetsInDay,
           width: widget.dayWidgetSize.width,
         ));
+
+        if (sorted.length - numberOfEventsToDisplay > 0) {
+          const size = 25.0;
+          stackWidgets.add(Positioned(
+            left: i * widget.dayWidgetSize.width,
+            top: 0,
+            width: size,
+            child: MoreEvents(
+              onTap: () => print('${sorted.length - numberOfEventsToDisplay} more event(s)'),
+              value: sorted.length - numberOfEventsToDisplay,
+              size: size,
+            ),
+          ));
+        }
       }
     }
     return Stack(
@@ -134,8 +148,8 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
   }
 
   /// adds an ranged event to stack by checking the positions that are empty
-  void checkAndAddEventToStack(int numberOfEventsToDisplay, CalendarEvent event, DateTime currentDay,
-      int currentDayNumber, int i, List<Widget> stackWidgets, List<Widget> eventWidgetsInDay) {
+  void checkAndAddEventToStack(int numberOfEventsToDisplay, EventModel event, DateTime currentDay, int currentDayNumber,
+      int i, List<Widget> stackWidgets, List<Widget> eventWidgetsInDay) {
     for (int position = 0; position < numberOfEventsToDisplay; position++) {
       if (currentDayEventPositionsInStack.contains(position) ||
           (position < eventWidgetsInDay.length && eventWidgetsInDay.elementAt(position) is EventItem)) {
@@ -153,10 +167,7 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
           left: i * widget.dayWidgetSize.width,
           top: position * (eventItemHt + 20) + dateTxtHt,
           width: width,
-          child: EventItem(
-            onTap: () => print('TEST'),
-            event: event,
-          ),
+          child: EventItem(event: event),
         ),
       );
       eventWidgetsInDay.add(SizedBox(height: eventItemHt + 15));
@@ -164,10 +175,10 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
     }
   }
 
-  List<CalendarEvent> sortedAccordingToTheDuration(DateTime date) {
-    List<CalendarEvent> events = List();
+  List<EventModel> sortedAccordingToTheDuration(DateTime date) {
+    List<EventModel> events = List();
     currentDayEventPositionsInStack = List(); //resetting current day positions in stack
-    for (CalendarEvent event in eventsInCurrentWeek) {
+    for (EventModel event in eventsInCurrentWeek) {
       DateTime startDate = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
       DateTime endDate = DateTime(event.endTime.year, event.endTime.month, event.endTime.day);
       if (date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0) {
@@ -180,7 +191,7 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
     return events;
   }
 
-  int comparator(CalendarEvent event1, CalendarEvent event2) {
+  int comparator(EventModel event1, EventModel event2) {
     int compareOutput = event1.startTime.compareTo(event2.startTime);
     if (compareOutput < 0)
       return -1; //makes event1 come before event2 in the result list
@@ -205,11 +216,11 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
     }
   }
 
-  List<CalendarEvent> getEventsOn(DateTime date) {
-    List<int> eventPositions = CalendarEvent.getList(date.month, date.year);
-    List<CalendarEvent> eventsOnDate = List();
+  List<EventModel> getEventsOn(DateTime date) {
+    List<int> eventPositions = EventModel.getList(date.month, date.year);
+    List<EventModel> eventsOnDate = List();
     for (int pos in eventPositions) {
-      CalendarEvent event = CalendarEvent.eventsList[pos];
+      EventModel event = EventModel.eventsList[pos];
       DateTime startDate = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
       DateTime endDate = DateTime(event.endTime.year, event.endTime.month, event.endTime.day);
       if (date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0) {

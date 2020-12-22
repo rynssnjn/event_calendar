@@ -1,8 +1,5 @@
-// import 'package:calendar_flutter/calendar_event.dart';
-// import 'package:calendar_flutter/flutter_calendar.dart';
-// import 'package:calendar_flutter/calendar_flutter.dart';
-import 'package:event_calendar/calendar_event.dart';
-import 'package:event_calendar/calendar_flutter.dart';
+import 'package:event_calendar/event_calendar.dart';
+import 'package:event_calendar/event_model.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -27,55 +24,135 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<EventModel> events;
+  @override
+  void initState() {
+    setEvents();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    setCalendarEvents(); // uncomment this to see the events on the calendar
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calendar'),
+        title: Text('Test Calendar'),
+        backgroundColor: Color(0xff509D56),
       ),
-      body: CustomCalendar(),
+      body: EventCalendar(
+        weekDays: ['So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.'],
+        calendarSize: MediaQuery.of(context).size,
+      ),
     );
   }
 
-  void setCalendarEvents() {
-    List<CalendarEvent> eventsList = List<CalendarEvent>();
+  void setEvents() {
+    List<EventModel> events = List<EventModel>();
 
-    CalendarEvent event = CalendarEvent();
-    event.title = "Meeting 1";
-    event.startTime = DateTime(2020, 11, 01);
-    event.endTime = DateTime(2020, 11, 10);
-    event.bgColor = Colors.redAccent;
-    eventsList.add(event);
+    EventModel event = EventModel(
+      onSelect: () => print('Action Tapped: Meeting 1'),
+      title: 'Meeting 1',
+      startTime: DateTime(2020, 11, 1),
+      endTime: DateTime(2020, 12, 5),
+      backgroundColor: Color(0xff31C987),
+    );
+    events.add(event);
 
-    event = CalendarEvent();
-    event.title = "Meeting 2";
-    event.startTime = DateTime(2020, 11, 09);
-    event.endTime = DateTime(2020, 11, 11);
-    event.bgColor = Colors.redAccent;
-    eventsList.add(event);
+    EventModel event3 = EventModel(
+      title: 'Meeting 3',
+      startTime: DateTime(2020, 12, 3),
+      endTime: DateTime(2020, 12, 09),
+      backgroundColor: Color(0xff892486),
+    );
+    events.add(event3);
 
-    event = CalendarEvent();
-    event.title = "Meeting 3";
-    event.startTime = DateTime(2020, 11, 09);
-    event.endTime = DateTime(2020, 11, 11);
-    event.bgColor = Colors.green;
-    eventsList.add(event);
+    EventModel event4 = EventModel(
+      title: 'Meeting 4',
+      startTime: DateTime(2020, 12, 09),
+      endTime: DateTime(2020, 12, 12),
+      backgroundColor: Color(0xff892486),
+    );
+    events.add(event4);
 
-    event = CalendarEvent();
-    event.title = "Meeting 4";
-    event.startTime = DateTime.now().subtract(Duration(days: 1));
-    event.endTime = DateTime.now().add(Duration(days: 1));
-    event.bgColor = Colors.purple;
-    eventsList.add(event);
+    EventModel event5 = EventModel(
+      title: 'Meeting 5',
+      startTime: DateTime(2020, 12, 12),
+      endTime: DateTime(2020, 12, 12),
+      backgroundColor: Color(0xff892486),
+    );
+    events.add(event5);
 
-    event = CalendarEvent();
-    event.title = "Meeting 5";
-    event.startTime = DateTime.now().add(Duration(days: 1));
-    event.endTime = DateTime.now().add(Duration(days: 1));
-    event.bgColor = Colors.orange;
-    eventsList.add(event);
+    EventModel event6 = EventModel(
+      title: 'Meeting 6',
+      startTime: DateTime(2020, 12, 12),
+      endTime: DateTime(2020, 12, 15),
+      backgroundColor: Color(0xff31C987),
+    );
+    events.add(event6);
 
-    CalendarEvent.setListAndUpdateMap(eventsList);
+    EventModel event7 = EventModel(
+      title: 'Meeting 7',
+      startTime: DateTime(2020, 12, 6),
+      endTime: DateTime(2020, 12, 7),
+      backgroundColor: Color(0xff892486),
+    );
+    events.add(event7);
+
+    EventModel event8 = EventModel(
+      title: 'Meeting 8',
+      startTime: DateTime(2020, 12, 12),
+      endTime: DateTime(2020, 12, 12),
+      backgroundColor: Color(0xff31C987),
+    );
+    events.add(event8);
+
+    EventModel event9 = EventModel(
+      title: 'Meeting 9',
+      startTime: DateTime(2020, 12, 12),
+      endTime: DateTime(2020, 12, 12),
+      backgroundColor: Color(0xff31C987),
+    );
+    events.add(event9);
+
+    EventModel event10 = EventModel(
+      title: 'Meeting 10',
+      startTime: DateTime(2020, 12, 13),
+      endTime: DateTime(2020, 12, 18),
+      backgroundColor: Color(0xff31C987),
+    );
+    events.add(event10);
+
+    EventModel event11 = EventModel(
+      title: 'Meeting 11',
+      startTime: DateTime(2020, 12, 15),
+      endTime: DateTime(2020, 12, 22),
+      backgroundColor: Color(0xff892486),
+    );
+    events.add(event11);
+
+    EventModel event12 = EventModel(
+      title: 'Meeting 12',
+      startTime: DateTime(2020, 12, 21),
+      endTime: DateTime(2020, 12, 24),
+      backgroundColor: Color(0xff31C987),
+    );
+    events.add(event12);
+
+    EventModel event13 = EventModel(
+      title: 'Meeting 13',
+      startTime: DateTime(2020, 12, 10),
+      endTime: DateTime(2020, 12, 10),
+      backgroundColor: Color(0xff31C987),
+    );
+    events.add(event13);
+
+    EventModel event14 = EventModel(
+      title: 'Meeting 14',
+      startTime: DateTime(2020, 12, 8),
+      endTime: DateTime(2020, 12, 10),
+      backgroundColor: Color(0xff31C987),
+    );
+    events.add(event14);
+
+    EventModel.setListAndUpdateMap(events);
   }
 }

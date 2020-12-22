@@ -6,12 +6,14 @@ class DayContainer extends StatelessWidget {
     this.eventWidgets,
     this.currentMonthDate,
     this.width,
+    this.height = 158,
   });
 
   final DateTime day;
   final List<Widget> eventWidgets;
   final DateTime currentMonthDate;
   final double width;
+  final double height;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -23,7 +25,7 @@ class DayContainer extends StatelessWidget {
           color: Colors.white,
         ),
         width: width,
-        height: 180,
+        height: height,
         padding: EdgeInsets.only(top: 5),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -65,7 +67,7 @@ class _DateWidget extends StatelessWidget {
       height: 24,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isToday ? Color(0xFF1E90FF) : Colors.transparent,
+        color: isToday ? Color(0xff509D56) : Colors.transparent,
       ),
       child: Center(
         child: Text(

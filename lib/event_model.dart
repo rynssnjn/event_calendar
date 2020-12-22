@@ -1,35 +1,43 @@
 import 'package:flutter/material.dart';
 
-class CalendarEvent {
-  String title;
-  String extension, path;
-  DateTime startTime, endTime;
-  Color bgColor;
-
+class EventModel {
   /// used while painting event in calendar
   int positionInStack = -1; //current position
 
-  CalendarEvent();
-  static List<CalendarEvent> _events;
+  EventModel({
+    this.onSelect,
+    this.title,
+    this.startTime,
+    this.endTime,
+    this.backgroundColor,
+  });
 
-  static List<CalendarEvent> get eventsList => _events;
+  final VoidCallback onSelect;
+  final String title;
+  final DateTime startTime;
+  final DateTime endTime;
+  final Color backgroundColor;
 
-  Color get color => bgColor ?? Colors.grey;
+  static List<EventModel> _events;
+
+  static List<EventModel> get eventsList => _events;
+
+  Color get color => backgroundColor ?? Colors.grey;
 
   static Map<String, List<int>> _eventsDict;
 
-  static void setListAndUpdateMap(List<CalendarEvent> events) {
+  static void setListAndUpdateMap(List<EventModel> events) {
     //on deleting an event
     _events = events;
     _eventsDict = Map();
     for (int i = 0; i < events.length; i++) {
-      CalendarEvent event = events.elementAt(i);
+      EventModel event = events.elementAt(i);
       _updateMap(event, i);
     }
   }
 
   //indexing events for fast processing
-  static void _updateMap(CalendarEvent event, int position) {
+  static void _updateMap(EventModel event, int position) {
     int monthsCount = numberOfMonthsBetween(event.startTime, event.endTime);
     int index = 0;
     do {
