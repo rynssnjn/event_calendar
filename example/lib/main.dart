@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Meeting 1',
       startTime: DateTime(2020, 11, 01),
       endTime: DateTime(2020, 12, 10),
-      backgroundColor: Colors.green,
+      backgroundColor: Color(0xff31C987),
     );
     events.add(event);
 
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Meeting 2',
       startTime: DateTime(2020, 11, 01),
       endTime: DateTime(2020, 12, 10),
-      backgroundColor: Colors.purple,
+      backgroundColor: Color(0xff892486),
     );
     events.add(event2);
 
@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Meeting 3',
       startTime: DateTime(2020, 11, 01),
       endTime: DateTime(2020, 12, 10),
-      backgroundColor: Colors.purple,
+      backgroundColor: Color(0xff892486),
     );
     events.add(event3);
 
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Meeting 4',
       startTime: DateTime(2020, 12, 01),
       endTime: DateTime(2020, 12, 09),
-      backgroundColor: Colors.purple,
+      backgroundColor: Color(0xff892486),
     );
     events.add(event4);
 
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Meeting 5',
       startTime: DateTime(2020, 12, 09),
       endTime: DateTime(2020, 12, 12),
-      backgroundColor: Colors.green,
+      backgroundColor: Color(0xff31C987),
     );
     events.add(event5);
 
@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Meeting 6',
       startTime: DateTime(2020, 12, 12),
       endTime: DateTime(2020, 12, 12),
-      backgroundColor: Colors.purple,
+      backgroundColor: Color(0xff892486),
     );
     events.add(event6);
 
@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Meeting 7',
       startTime: DateTime(2020, 12, 12),
       endTime: DateTime(2020, 12, 12),
-      backgroundColor: Colors.green,
+      backgroundColor: Color(0xff31C987),
     );
     events.add(event7);
 
@@ -109,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Meeting 8',
       startTime: DateTime(2020, 12, 10),
       endTime: DateTime(2020, 12, 11),
-      backgroundColor: Colors.purple,
+      backgroundColor: Color(0xff892486),
     );
     events.add(event8);
 
@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Meeting 9',
       startTime: DateTime(2020, 12, 12),
       endTime: DateTime(2020, 12, 12),
-      backgroundColor: Colors.green,
+      backgroundColor: Color(0xff31C987),
     );
     events.add(event9);
 
@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Meeting 10',
       startTime: DateTime(2020, 12, 12),
       endTime: DateTime(2020, 12, 12),
-      backgroundColor: Colors.green,
+      backgroundColor: Color(0xff31C987),
     );
     events.add(event10);
 
