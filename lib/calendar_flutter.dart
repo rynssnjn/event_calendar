@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
@@ -8,28 +9,40 @@ import 'month_view.dart';
 class CustomCalendar extends StatefulWidget {
   final List<String> weekDays;
   final Size calendarSize;
-  CustomCalendar({this.weekDays, this.calendarSize});
+  CustomCalendar({
+    this.weekDays,
+    this.calendarSize,
+  });
   @override
   _CustomCalendarState createState() => _CustomCalendarState();
 }
 
 class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProviderStateMixin {
   final int numWeekDays = 7;
-  Size size;
-  double itemHeight;
-  double itemWidth;
+  Size _size;
+  List<String> _weekDays;
+  double _itemHeight;
+  double _itemWidth;
   DateTime _currentDate = DateTime.now();
   PageController _controller;
-  int prevIndex = 12;
+  int _prevIndex = 12;
   StreamController<int> _dateStreamController = StreamController();
 
   @override
   void initState() {
     _controller = PageController(
-      initialPage: prevIndex,
+      initialPage: _prevIndex,
       keepPage: false,
       viewportFraction: 1.0,
     );
+
+    _size = widget.calendarSize ?? MediaQuery.of(context).size;
+    _itemHeight = (_size.height - kBottomNavigationBarHeight - kToolbarHeight - (Platform.isAndroid ? 80 : 265)) /
+        getNumberOfWeeksInMonth(_currentDate);
+    _itemWidth = _size.width / numWeekDays;
+
+    _weekDays = widget.weekDays ?? ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+
     super.initState();
   }
 
@@ -41,7 +54,6 @@ class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    initDimensions();
     return Container(
       color: Colors.white,
       child: Column(
@@ -71,9 +83,9 @@ class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProvid
       color: Color(0x551A609F),
       child: Row(
         children: <Widget>[
-          for (String day in getWeekDays())
+          for (String day in _weekDays)
             SizedBox(
-              width: itemWidth,
+              width: _itemWidth,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 4),
                 child: Text(
@@ -97,9 +109,9 @@ class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProvid
       },
       itemBuilder: (context, index) {
         setCurrentDate(index);
-        initDimensions();
+        // initDimensions();
         return CalendarMonthWidget(
-          dayWidgetSize: Size(itemWidth, itemHeight),
+          dayWidgetSize: Size(_itemWidth, _itemHeight),
           currentMonthDate: _currentDate,
         );
       },
@@ -108,30 +120,13 @@ class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProvid
 
   void setCurrentDate(int index) {
     int month = _currentDate.month;
-    if (index > prevIndex) {
-      month += index - prevIndex;
-    } else if (index < prevIndex) {
-      month -= prevIndex - index;
+    if (index > _prevIndex) {
+      month += index - _prevIndex;
+    } else if (index < _prevIndex) {
+      month -= _prevIndex - index;
     }
-    prevIndex = index;
+    _prevIndex = index;
     _currentDate = DateTime(_currentDate.year, month, 1);
     _dateStreamController.add(0); //just to notify builder
-  }
-
-  List<String> getWeekDays() {
-    return widget.weekDays ?? ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
-  }
-
-  void initDimensions() {
-    if (widget.calendarSize == null) {
-      size = MediaQuery.of(context).size;
-      itemHeight =
-          (size.height - kBottomNavigationBarHeight - kToolbarHeight - 80) / getNumberOfWeeksInMonth(_currentDate);
-      itemWidth = size.width / numWeekDays;
-    } else {
-      size = widget.calendarSize;
-      itemHeight = widget.calendarSize.width / getNumberOfWeeksInMonth(_currentDate);
-      itemWidth = size.width / numWeekDays;
-    }
   }
 }

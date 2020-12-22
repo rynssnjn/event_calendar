@@ -39,6 +39,7 @@ class EventItem extends StatelessWidget {
         child: Text(
           event.title,
           style: style ?? textTheme.bodyText2.copyWith(fontSize: 14),
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

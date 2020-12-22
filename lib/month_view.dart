@@ -1,5 +1,6 @@
 import 'package:event_calendar/day_container.dart';
 import 'package:event_calendar/event_item.dart';
+import 'package:event_calendar/more_events.dart';
 import 'package:flutter/material.dart';
 import 'calendar_event.dart';
 import 'calendar_utils.dart';
@@ -122,6 +123,19 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
           eventWidgets: eventWidgetsInDay,
           width: widget.dayWidgetSize.width,
         ));
+
+        if (sorted.length - numberOfEventsToDisplay > 0) {
+          const size = 25.0;
+          stackWidgets.add(Positioned(
+            left: i * widget.dayWidgetSize.width,
+            top: 0,
+            width: size,
+            child: MoreEvents(
+              sorted.length - numberOfEventsToDisplay,
+              size: size,
+            ),
+          ));
+        }
       }
     }
     return Stack(

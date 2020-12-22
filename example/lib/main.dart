@@ -30,11 +30,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     setCalendarEvents(); // uncomment this to see the events on the calendar
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Calendar'),
+    return SafeArea(
+      child: Scaffold(
+        body: CustomCalendar(
+          weekDays: ['Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.', 'So.'],
+          calendarSize: MediaQuery.of(context).size,
+        ),
       ),
-      body: CustomCalendar(),
     );
   }
 
@@ -72,8 +74,36 @@ class _MyHomePageState extends State<MyHomePage> {
     event = CalendarEvent();
     event.title = "Meeting 5";
     event.startTime = DateTime(2020, 12, 09);
-    event.endTime = DateTime(2020, 12, 09);
-    event.bgColor = Colors.orange;
+    event.endTime = DateTime(2020, 12, 12);
+    event.bgColor = Colors.pink;
+    eventsList.add(event);
+
+    event = CalendarEvent();
+    event.title = "Meeting 6";
+    event.startTime = DateTime(2020, 12, 12);
+    event.endTime = DateTime(2020, 12, 12);
+    event.bgColor = Colors.pink;
+    eventsList.add(event);
+
+    event = CalendarEvent();
+    event.title = "Meeting 7";
+    event.startTime = DateTime(2020, 12, 12);
+    event.endTime = DateTime(2020, 12, 12);
+    event.bgColor = Colors.pink;
+    eventsList.add(event);
+
+    event = CalendarEvent();
+    event.title = "Meeting 8";
+    event.startTime = DateTime(2020, 12, 10);
+    event.endTime = DateTime(2020, 12, 11);
+    event.bgColor = Colors.pink;
+    eventsList.add(event);
+
+    event = CalendarEvent();
+    event.title = "Meeting 9";
+    event.startTime = DateTime(2020, 12, 12);
+    event.endTime = DateTime(2020, 12, 12);
+    event.bgColor = Colors.pink;
     eventsList.add(event);
 
     CalendarEvent.setListAndUpdateMap(eventsList);
