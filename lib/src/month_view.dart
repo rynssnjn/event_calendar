@@ -160,7 +160,7 @@ class _MonthViewState extends State<MonthView> {
             }
           }
           dayViewWidgets.add(DayContainer(
-            onTap: (day) => print(day),
+            onTap: (day) {},
             day: currentDay,
             currentMonthDate: widget.currentMonthDate,
             eventWidgets: eventWidgetsInDay,
