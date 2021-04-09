@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class DayContainer extends StatelessWidget {
   const DayContainer({
+    @required this.onTap,
     this.day,
     this.eventWidgets,
     this.currentMonthDate,
@@ -14,10 +15,11 @@ class DayContainer extends StatelessWidget {
   final DateTime currentMonthDate;
   final double width;
   final double height;
+  final Function(DateTime day) onTap;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () => onTap(day),
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,

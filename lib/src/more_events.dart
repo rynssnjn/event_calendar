@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 
 class MoreEvents extends StatelessWidget {
   const MoreEvents({
-    this.onTap,
+    @required this.onTap,
     this.value,
     this.size = 25,
+    this.backgroundColor,
+    this.bannerTextStyle,
   });
 
   final int value;
   final double size;
   final VoidCallback onTap;
+  final TextStyle bannerTextStyle;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -27,25 +31,30 @@ class MoreEvents extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Text(
                   '+$value',
-                  style: textTheme.headline4.copyWith(
-                    color: Colors.white,
-                    fontSize: 11,
-                  ),
+                  style: bannerTextStyle ??
+                      textTheme.headline4.copyWith(
+                        color: Colors.white,
+                        fontSize: 11,
+                      ),
                   maxLines: 2,
                 ),
               ),
             )),
       ),
-      painter: _TrianglePainter(),
+      painter: _TrianglePainter(paintBrushColor: backgroundColor),
     );
   }
 }
 
 class _TrianglePainter extends CustomPainter {
+  _TrianglePainter({this.paintBrushColor});
+
+  final Color paintBrushColor;
+
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paintBrush = Paint();
-    paintBrush.color = Colors.red.withOpacity(0.5);
+    paintBrush.color = paintBrushColor ?? Colors.red.withOpacity(0.5);
 
     // reversed triangle
     final reversePath = Path();

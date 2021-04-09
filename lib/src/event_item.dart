@@ -1,4 +1,4 @@
-import 'package:event_calendar/event_model.dart';
+import 'package:event_calendar/src/models/event_model.dart';
 import 'package:flutter/material.dart';
 
 class EventItem extends StatelessWidget {
@@ -20,10 +20,7 @@ class EventItem extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return InkWell(
       onTap: () {
-        if (event.onSelect != null)
-          event.onSelect();
-        else
-          print('${event.title} tapped');
+        if (event.onSelect != null) event.onSelect();
       },
       child: Container(
         decoration: BoxDecoration(
