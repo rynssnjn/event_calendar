@@ -1,10 +1,9 @@
-import 'package:event_calendar/calendar_event.dart';
+import 'package:event_calendar/src/models/event_model.dart';
 import 'package:flutter/material.dart';
 
 class EventItem extends StatelessWidget {
   const EventItem({
-    @required this.onTap,
-    this.event,
+    required this.event,
     this.horizontalPadding = 4,
     this.verticalPadding = 4,
     this.style,
@@ -13,15 +12,14 @@ class EventItem extends StatelessWidget {
   final int verticalPadding;
   final int horizontalPadding;
 
-  final CalendarEvent event;
-  final VoidCallback onTap;
-  final TextStyle style;
+  final EventModel event;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return InkWell(
-      onTap: onTap,
+      onTap: event.onSelect,
       child: Container(
         decoration: BoxDecoration(
           border: Border(
@@ -38,7 +36,8 @@ class EventItem extends StatelessWidget {
         ),
         child: Text(
           event.title,
-          style: style ?? textTheme.bodyText2.copyWith(fontSize: 14),
+          style: style ?? textTheme.bodyText2!.copyWith(fontSize: 14),
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

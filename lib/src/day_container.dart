@@ -2,28 +2,32 @@ import 'package:flutter/material.dart';
 
 class DayContainer extends StatelessWidget {
   const DayContainer({
-    this.day,
-    this.eventWidgets,
-    this.currentMonthDate,
-    this.width,
+    required this.onTap,
+    required this.day,
+    required this.eventWidgets,
+    required this.currentMonthDate,
+    required this.width,
+    this.height = 158,
   });
 
   final DateTime day;
   final List<Widget> eventWidgets;
   final DateTime currentMonthDate;
   final double width;
+  final double height;
+  final Function(DateTime day) onTap;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () => onTap(day),
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
-          border: Border.all(color: Colors.grey[300], width: 0.35),
+          border: Border.all(color: Colors.grey[300]!, width: 0.35),
           color: Colors.white,
         ),
         width: width,
-        height: 180,
+        height: height,
         padding: EdgeInsets.only(top: 5),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -49,8 +53,8 @@ class DayContainer extends StatelessWidget {
 
 class _DateWidget extends StatelessWidget {
   const _DateWidget({
-    this.currentMonthDate,
-    this.date,
+    required this.currentMonthDate,
+    required this.date,
   });
   final DateTime currentMonthDate;
   final int date;
@@ -65,12 +69,12 @@ class _DateWidget extends StatelessWidget {
       height: 24,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isToday ? Color(0xFF1E90FF) : Colors.transparent,
+        color: isToday ? Color(0xff509D56) : Colors.transparent,
       ),
       child: Center(
         child: Text(
           '$date',
-          style: textTheme.headline4.copyWith(
+          style: textTheme.headline4!.copyWith(
             color: isToday ? Colors.white : Colors.black,
             fontSize: 13,
           ),
