@@ -124,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: EventCalendar(
         calendarSize: MediaQuery.of(context).size,
         events: events,
+        divisor: 3.6,
       ),
     );
   }

@@ -165,6 +165,7 @@ class _MonthViewState extends State<MonthView> {
             currentMonthDate: widget.currentMonthDate,
             eventWidgets: eventWidgetsInDay,
             width: widget.dayWidgetSize.width,
+            height: widget.dayWidgetSize.height,
           ));
 
           if (sorted.length - numberOfEventsToDisplay > 0 && widget.onMoreEventsTapped != null) {
