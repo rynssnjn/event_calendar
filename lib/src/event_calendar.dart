@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'dart:ui';
-import 'package:event_calendar/event_calendar.dart';
+
+import 'package:event_calendar/src/models/event_model.dart';
 import 'package:event_calendar/src/month_pageview.dart';
 import 'package:event_calendar/src/utilities/calendar_utils.dart';
 import 'package:flutter/material.dart';
@@ -20,33 +20,33 @@ class EventCalendar extends StatefulWidget {
     this.calendarSize,
   });
 
-  final VoidCallback onMoreEventsTapped;
-  final List<String> weekDays;
-  final List<EventModel> events;
-  final Widget previousIcon;
-  final Widget nextIcon;
-  final TextStyle headerStyle;
-  final TextStyle moreEventsBannerTextStyle;
-  final TextStyle weekdaysHeaderTextStyle;
-  final Color weekdaysBackgroundColor;
-  final Color moreEventsBackgroundColor;
-  final Size calendarSize;
+  final VoidCallback? onMoreEventsTapped;
+  final List<String>? weekDays;
+  final List<EventModel>? events;
+  final Widget? previousIcon;
+  final Widget? nextIcon;
+  final TextStyle? headerStyle;
+  final TextStyle? moreEventsBannerTextStyle;
+  final TextStyle? weekdaysHeaderTextStyle;
+  final Color? weekdaysBackgroundColor;
+  final Color? moreEventsBackgroundColor;
+  final Size? calendarSize;
 
   @override
   _EventCalendarState createState() => _EventCalendarState();
 }
 
 class _EventCalendarState extends State<EventCalendar> with SingleTickerProviderStateMixin {
-  List<String> _weekDays;
-  double _itemHeight;
-  double _itemWidth;
+  late List<String> _weekDays;
+  late double _itemHeight;
+  late double _itemWidth;
   DateTime _currentDate = DateTime.now();
-  PageController _controller;
+  late PageController _controller;
   int _previousIndex = 12;
 
   @override
   void initState() {
-    EventModel.setEventList(widget.events);
+    EventModel.setEventList(widget.events!);
 
     _controller = PageController(
       initialPage: _previousIndex,
@@ -70,7 +70,7 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
   }
 
   double get _iosSize {
-    final height = widget.calendarSize.height ?? MediaQuery.of(context).size.height;
+    final height = widget.calendarSize?.height ?? MediaQuery.of(context).size.height;
     if (height < 667.0) {
       return 0.0; // iphone 5s
     } else if (height == 667.0) {
@@ -151,7 +151,7 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
                       padding: EdgeInsets.symmetric(horizontal: 4),
                       child: Text(
                         day,
-                        style: widget.weekdaysHeaderTextStyle ?? textTheme.bodyText2.copyWith(color: Colors.white),
+                        style: widget.weekdaysHeaderTextStyle ?? textTheme.bodyText2!.copyWith(color: Colors.white),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         textAlign: TextAlign.center,

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class MonthPageView extends StatelessWidget {
   const MonthPageView({
-    @required this.onPageChanged,
-    @required this.controller,
-    this.size,
-    this.date,
+    required this.onPageChanged,
+    required this.controller,
+    required this.size,
+    required this.date,
     this.onMoreEventsTapped,
     this.moreEventsBackgroundColor,
     this.moreEventsBannerTextStyle,
@@ -16,9 +16,9 @@ class MonthPageView extends StatelessWidget {
   final PageController controller;
   final Size size;
   final DateTime date;
-  final VoidCallback onMoreEventsTapped;
-  final TextStyle moreEventsBannerTextStyle;
-  final Color moreEventsBackgroundColor;
+  final VoidCallback? onMoreEventsTapped;
+  final TextStyle? moreEventsBannerTextStyle;
+  final Color? moreEventsBackgroundColor;
 
   @override
   Widget build(BuildContext context) {

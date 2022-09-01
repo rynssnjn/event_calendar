@@ -2,29 +2,29 @@ import 'package:flutter/material.dart';
 
 class EventModel {
   EventModel({
+    required this.title,
+    required this.startTime,
+    required this.endTime,
     this.onSelect,
-    this.title,
-    this.startTime,
-    this.endTime,
     this.backgroundColor,
   });
 
-  final VoidCallback onSelect;
+  final VoidCallback? onSelect;
   final String title;
   final DateTime startTime;
   final DateTime endTime;
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   Color get color => backgroundColor ?? Colors.grey;
 
   /// used while painting event in calendar
   int positionInStack = -1; // current position
 
-  static List<EventModel> _events;
+  static List<EventModel>? _events;
 
-  static List<EventModel> get eventsList => _events;
+  static List<EventModel> get eventsList => _events ?? <EventModel>[];
 
-  static Map<String, List<int>> _eventsDict;
+  static Map<String, List<int>>? _eventsDict;
 
   static void setEventList(List<EventModel> events) {
     _events = events;
@@ -36,9 +36,9 @@ class EventModel {
   }
 
   static List<int> getList(int month, int year) {
-    if (_eventsDict == null) return List.empty();
-    List<int> eventPositions = _eventsDict[_getKey(month, year)];
-    return eventPositions ?? [];
+    if (_eventsDict == null) return <int>[];
+    List<int>? eventPositions = _eventsDict?[_getKey(month, year)];
+    return eventPositions ?? <int>[];
   }
 
   static String _getKey(int month, int year) {
@@ -51,12 +51,12 @@ class EventModel {
     do {
       DateTime dateTime = DateTime(event.startTime.year, event.startTime.month + index, 1);
       String key = _getKey(dateTime.month, dateTime.year);
-      List<int> pointers = _eventsDict[key];
+      List<int>? pointers = _eventsDict?[key];
       if (pointers == null) {
-        pointers = [];
+        pointers = <int>[];
       }
       pointers.add(position);
-      _eventsDict[key] = pointers;
+      _eventsDict?[key] = pointers;
       index++;
     } while (index < inBetweenMonths(event.startTime, event.endTime));
   }

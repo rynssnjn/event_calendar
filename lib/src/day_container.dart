@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class DayContainer extends StatelessWidget {
   const DayContainer({
-    @required this.onTap,
-    this.day,
-    this.eventWidgets,
-    this.currentMonthDate,
-    this.width,
+    required this.onTap,
+    required this.day,
+    required this.eventWidgets,
+    required this.currentMonthDate,
+    required this.width,
     this.height = 158,
   });
 
@@ -23,7 +23,7 @@ class DayContainer extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
-          border: Border.all(color: Colors.grey[300], width: 0.35),
+          border: Border.all(color: Colors.grey[300]!, width: 0.35),
           color: Colors.white,
         ),
         width: width,
@@ -53,8 +53,8 @@ class DayContainer extends StatelessWidget {
 
 class _DateWidget extends StatelessWidget {
   const _DateWidget({
-    this.currentMonthDate,
-    this.date,
+    required this.currentMonthDate,
+    required this.date,
   });
   final DateTime currentMonthDate;
   final int date;
@@ -74,7 +74,7 @@ class _DateWidget extends StatelessWidget {
       child: Center(
         child: Text(
           '$date',
-          style: textTheme.headline4.copyWith(
+          style: textTheme.headline4!.copyWith(
             color: isToday ? Colors.white : Colors.black,
             fontSize: 13,
           ),

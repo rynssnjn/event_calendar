@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class WeekModel {
   const WeekModel({
-    this.stackWidgets,
-    this.dayViewWidgets,
+    required this.stackWidgets,
+    required this.dayViewWidgets,
   });
 
   final List<Widget> stackWidgets;

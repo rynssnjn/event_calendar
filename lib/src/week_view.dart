@@ -2,9 +2,10 @@ import 'package:event_calendar/src/models/week_model.dart';
 import 'package:flutter/material.dart';
 
 class WeekView extends StatelessWidget {
-  const WeekView({this.week});
+  const WeekView({required this.week});
 
   final WeekModel week;
+
   @override
   Widget build(BuildContext context) {
     return Stack(

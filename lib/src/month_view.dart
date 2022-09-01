@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 
 class MonthView extends StatefulWidget {
   MonthView({
-    @required this.currentMonthDate,
-    @required this.dayWidgetSize,
+    required this.currentMonthDate,
+    required this.dayWidgetSize,
     this.onMoreEventsTapped,
     this.moreEventsBackgroundColor,
     this.moreEventsBannerTextStyle,
@@ -18,9 +18,9 @@ class MonthView extends StatefulWidget {
 
   final DateTime currentMonthDate;
   final Size dayWidgetSize;
-  final VoidCallback onMoreEventsTapped;
-  final TextStyle moreEventsBannerTextStyle;
-  final Color moreEventsBackgroundColor;
+  final VoidCallback? onMoreEventsTapped;
+  final TextStyle? moreEventsBannerTextStyle;
+  final Color? moreEventsBackgroundColor;
 
   @override
   _MonthViewState createState() => _MonthViewState();
@@ -31,7 +31,7 @@ class _MonthViewState extends State<MonthView> {
   final double eventHeight = 20;
 
   /// holds the list of events in currentweek
-  List<EventModel> eventsInCurrentWeek;
+  late List<EventModel> eventsInCurrentWeek;
 
   /// holds the stack positions which are filled w.r.t current day events
   List<int> currentDayEventPositionsInStack = [];
@@ -99,7 +99,7 @@ class _MonthViewState extends State<MonthView> {
   @override
   Widget build(BuildContext context) {
     int numberOfWeeksInMonth = getNumberOfWeeksInMonth(widget.currentMonthDate);
-    List<WeekModel> weekModels = [];
+    List<WeekModel> weekModels = <WeekModel>[];
 
     for (int week = 0; week < numberOfWeeksInMonth; week++) {
       int daysBeforeStart = paddingBeforeStartDayOfMonth;
@@ -167,7 +167,7 @@ class _MonthViewState extends State<MonthView> {
             width: widget.dayWidgetSize.width,
           ));
 
-          if (sorted.length - numberOfEventsToDisplay > 0) {
+          if (sorted.length - numberOfEventsToDisplay > 0 && widget.onMoreEventsTapped != null) {
             const size = 25.0;
             stackWidgets.add(Positioned(
               left: i * widget.dayWidgetSize.width,
@@ -175,12 +175,12 @@ class _MonthViewState extends State<MonthView> {
               width: size,
               child: MoreEvents(
                 onTap: () {
-                  if (widget.onMoreEventsTapped != null) widget.onMoreEventsTapped();
+                  widget.onMoreEventsTapped?.call();
                 },
                 value: sorted.length - numberOfEventsToDisplay,
                 size: size,
-                backgroundColor: widget.moreEventsBackgroundColor,
-                bannerTextStyle: widget.moreEventsBannerTextStyle,
+                backgroundColor: widget.moreEventsBackgroundColor!,
+                bannerTextStyle: widget.moreEventsBannerTextStyle!,
               ),
             ));
           }
@@ -193,11 +193,7 @@ class _MonthViewState extends State<MonthView> {
     }
     return ListView(
       children: [
-        Column(
-          children: [
-            ...?weekModels.map((week) => WeekView(week: week)).toList(),
-          ],
-        ),
+        Column(children: weekModels.map((week) => WeekView(week: week)).toList()),
       ],
     );
   }
