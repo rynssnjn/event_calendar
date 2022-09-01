@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:event_calendar/src/models/event_model.dart';
 import 'package:event_calendar/src/month_pageview.dart';
-import 'package:event_calendar/src/utilities/calendar_utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class EventCalendar extends StatefulWidget {
@@ -18,6 +18,7 @@ class EventCalendar extends StatefulWidget {
     this.weekdaysBackgroundColor,
     this.moreEventsBackgroundColor,
     this.calendarSize,
+    this.divisor,
   });
 
   final VoidCallback? onMoreEventsTapped;
@@ -31,6 +32,7 @@ class EventCalendar extends StatefulWidget {
   final Color? weekdaysBackgroundColor;
   final Color? moreEventsBackgroundColor;
   final Size? calendarSize;
+  final double? divisor;
 
   @override
   _EventCalendarState createState() => _EventCalendarState();
@@ -55,8 +57,7 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
     );
 
     final size = widget.calendarSize ?? MediaQuery.of(context).size;
-    _itemHeight = (size.height - kBottomNavigationBarHeight - kToolbarHeight - (Platform.isAndroid ? 120 : _iosSize)) /
-        getNumberOfWeeksInMonth(_currentDate);
+    _itemHeight = (size.height - kBottomNavigationBarHeight - kToolbarHeight - _subtrahend) / (widget.divisor ?? 4);
     _itemWidth = size.width / 7;
 
     _weekDays = widget.weekDays ?? ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
@@ -67,6 +68,14 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  double get _subtrahend {
+    if (kIsWeb) {
+      return 0.0;
+    } else {
+      return Platform.isAndroid ? 120 : _iosSize;
+    }
   }
 
   double get _iosSize {
