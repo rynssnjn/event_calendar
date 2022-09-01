@@ -1,27 +1,25 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'calendar_utils.dart';
 import 'month_view.dart';
 
 class CustomCalendar extends StatefulWidget {
-  final List<String>? weekDays;
-  final Size? calendarSize;
-  CustomCalendar({
-    this.weekDays,
-    this.calendarSize,
-  });
+  final List<String> weekDays;
+  final Size calendarSize;
+  CustomCalendar({this.weekDays, this.calendarSize});
   @override
   _CustomCalendarState createState() => _CustomCalendarState();
 }
 
 class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProviderStateMixin {
   final int numWeekDays = 7;
-  late Size size;
-  late double itemHeight;
-  late double itemWidth;
-  late DateTime _currentDate = DateTime.now();
-  late PageController _controller;
+  Size size;
+  double itemHeight;
+  double itemWidth;
+  DateTime _currentDate = DateTime.now();
+  PageController _controller;
   int prevIndex = 12;
   StreamController<int> _dateStreamController = StreamController();
 
@@ -80,7 +78,7 @@ class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProvid
                 padding: EdgeInsets.symmetric(horizontal: 4),
                 child: Text(
                   day,
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(color: Colors.black),
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.black),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
@@ -131,8 +129,8 @@ class _CustomCalendarState extends State<CustomCalendar> with SingleTickerProvid
           (size.height - kBottomNavigationBarHeight - kToolbarHeight - 80) / getNumberOfWeeksInMonth(_currentDate);
       itemWidth = size.width / numWeekDays;
     } else {
-      size = widget.calendarSize!;
-      itemHeight = widget.calendarSize!.width / getNumberOfWeeksInMonth(_currentDate);
+      size = widget.calendarSize;
+      itemHeight = widget.calendarSize.width / getNumberOfWeeksInMonth(_currentDate);
       itemWidth = size.width / numWeekDays;
     }
   }

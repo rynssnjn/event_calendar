@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
 class CalendarEvent {
-  late String title;
-  late String extension, path;
-  late DateTime startTime, endTime;
-  late Color? bgColor;
+  String title;
+  String extension, path;
+  DateTime startTime, endTime;
+  Color bgColor;
 
   /// used while painting event in calendar
   int positionInStack = -1; //current position
 
   CalendarEvent();
-  static List<CalendarEvent>? _events;
+  static List<CalendarEvent> _events;
 
-  static List<CalendarEvent>? get eventsList => _events;
+  static List<CalendarEvent> get eventsList => _events;
 
   Color get color => bgColor ?? Colors.grey;
 
-  static Map<String, List<int>>? _eventsDict;
+  static Map<String, List<int>> _eventsDict;
 
   static void setListAndUpdateMap(List<CalendarEvent> events) {
     //on deleting an event
@@ -35,20 +35,20 @@ class CalendarEvent {
     do {
       DateTime dateTime = DateTime(event.startTime.year, event.startTime.month + index, 1);
       String key = _getKeyFrom(dateTime.month, dateTime.year);
-      List<int>? pointersToEvents = _eventsDict?[key];
+      List<int> pointersToEvents = _eventsDict[key];
       if (pointersToEvents == null) {
-        pointersToEvents = <int>[];
+        pointersToEvents = List<int>();
       }
       pointersToEvents.add(position);
-      _eventsDict?[key] = pointersToEvents;
+      _eventsDict[key] = pointersToEvents;
       index++;
     } while (index < monthsCount);
   }
 
   static List<int> getList(int month, int year) {
-    if (_eventsDict == null) return <int>[];
-    List<int>? eventPositions = _eventsDict?[_getKeyFrom(month, year)];
-    return eventPositions ?? <int>[];
+    if (_eventsDict == null) return List<int>();
+    List<int> eventPositions = _eventsDict[_getKeyFrom(month, year)];
+    return eventPositions ?? List<int>();
   }
 
   static String _getKeyFrom(int month, int year) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class EventItem extends StatelessWidget {
   const EventItem({
-    required this.onTap,
+    @required this.onTap,
     this.event,
     this.horizontalPadding = 4,
     this.verticalPadding = 4,
@@ -13,9 +13,9 @@ class EventItem extends StatelessWidget {
   final int verticalPadding;
   final int horizontalPadding;
 
-  final CalendarEvent? event;
+  final CalendarEvent event;
   final VoidCallback onTap;
-  final TextStyle? style;
+  final TextStyle style;
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +27,18 @@ class EventItem extends StatelessWidget {
           border: Border(
             left: BorderSide(
               width: 3,
-              color: event!.color,
+              color: event.color,
             ),
           ),
-          color: event!.color.withOpacity(0.08),
+          color: event.color.withOpacity(0.08),
         ),
         padding: const EdgeInsets.symmetric(
           vertical: 10,
           horizontal: 5,
         ),
         child: Text(
-          event!.title,
-          style: style ?? textTheme.bodyText2!.copyWith(fontSize: 14),
+          event.title,
+          style: style ?? textTheme.bodyText2.copyWith(fontSize: 14),
         ),
       ),
     );
