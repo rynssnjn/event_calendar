@@ -12,8 +12,8 @@ class CalendarMonthWidget extends StatefulWidget {
   final Size dayWidgetSize;
 
   CalendarMonthWidget({
-    @required this.currentMonthDate,
-    @required this.dayWidgetSize,
+    required this.currentMonthDate,
+    required this.dayWidgetSize,
   });
 
   @override
@@ -22,10 +22,10 @@ class CalendarMonthWidget extends StatefulWidget {
 
 class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
   ///holds the list of events in currentweek
-  List<CalendarEvent> eventsInCurrentWeek;
+  late List<CalendarEvent> eventsInCurrentWeek;
 
   /// holds the stack positions which are filled w.r.t current day events
-  List<int> currentDayEventPositionsInStack = List();
+  List<int> currentDayEventPositionsInStack = <int>[];
 
   @override
   Widget build(BuildContext context) {
@@ -165,8 +165,8 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
   }
 
   List<CalendarEvent> sortedAccordingToTheDuration(DateTime date) {
-    List<CalendarEvent> events = List();
-    currentDayEventPositionsInStack = List(); //resetting current day positions in stack
+    List<CalendarEvent> events = <CalendarEvent>[];
+    currentDayEventPositionsInStack = <int>[];
     for (CalendarEvent event in eventsInCurrentWeek) {
       DateTime startDate = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
       DateTime endDate = DateTime(event.endTime.year, event.endTime.month, event.endTime.day);
@@ -197,7 +197,7 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
 
   void setEventsInWeekWithStartDate(int date) {
     int totDays = getNumberOfDays();
-    eventsInCurrentWeek = List();
+    eventsInCurrentWeek = <CalendarEvent>[];
     for (int i = 0; i < 7; i++, date++) {
       if (date <= 0 || date > totDays) continue;
       eventsInCurrentWeek
@@ -207,14 +207,16 @@ class _CalendarMonthWidgetState extends State<CalendarMonthWidget> {
 
   List<CalendarEvent> getEventsOn(DateTime date) {
     List<int> eventPositions = CalendarEvent.getList(date.month, date.year);
-    List<CalendarEvent> eventsOnDate = List();
+    List<CalendarEvent> eventsOnDate = <CalendarEvent>[];
     for (int pos in eventPositions) {
-      CalendarEvent event = CalendarEvent.eventsList[pos];
-      DateTime startDate = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
-      DateTime endDate = DateTime(event.endTime.year, event.endTime.month, event.endTime.day);
-      if (date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0) {
-        event.positionInStack = -1;
-        eventsOnDate.add(event);
+      CalendarEvent? event = CalendarEvent.eventsList?[pos];
+      if (event != null) {
+        DateTime startDate = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
+        DateTime endDate = DateTime(event.endTime.year, event.endTime.month, event.endTime.day);
+        if (date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0) {
+          event.positionInStack = -1;
+          eventsOnDate.add(event);
+        }
       }
     }
     return eventsOnDate;
