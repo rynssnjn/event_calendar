@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:event_calendar/src/models/day_model.dart';
 import 'package:event_calendar/src/models/event_model.dart';
 import 'package:event_calendar/src/month_pageview.dart';
+import 'package:event_calendar/src/utilities/typedefs.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -19,10 +21,20 @@ class EventCalendar extends StatefulWidget {
     this.moreEventsBackgroundColor,
     this.calendarSize,
     this.divisor,
+    // New Properties
+    this.onLeftChevronTapped,
+    this.onRightChevronTapped,
+    this.pageController,
+    this.isLeftChevronVisible = true,
+    this.isRightChevronVisible = true,
+    this.headerSubtitle,
+    this.dateBorderColor,
+    this.currentDateColor,
+    this.dateTextStyle,
   });
 
   final VoidCallback? onMoreEventsTapped;
-  final List<String>? weekDays;
+  final List<DayModel>? weekDays;
   final List<EventModel>? events;
   final Widget? previousIcon;
   final Widget? nextIcon;
@@ -34,12 +46,23 @@ class EventCalendar extends StatefulWidget {
   final Size? calendarSize;
   final double? divisor;
 
+  // New Properties
+  final OnChangeMonth? onLeftChevronTapped;
+  final OnChangeMonth? onRightChevronTapped;
+  final PageController? pageController;
+  final bool isLeftChevronVisible;
+  final bool isRightChevronVisible;
+  final Widget? headerSubtitle;
+  final Color? dateBorderColor;
+  final Color? currentDateColor;
+  final TextStyle? dateTextStyle;
+
   @override
   _EventCalendarState createState() => _EventCalendarState();
 }
 
 class _EventCalendarState extends State<EventCalendar> with SingleTickerProviderStateMixin {
-  late List<String> _weekDays;
+  late List<DayModel> _weekDays;
   late double _itemHeight;
   late double _itemWidth;
   DateTime _currentDate = DateTime.now();
@@ -50,17 +73,19 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
   void initState() {
     EventModel.setEventList(widget.events!);
 
-    _controller = PageController(
-      initialPage: _previousIndex,
-      keepPage: false,
-      viewportFraction: 1.0,
-    );
+    _controller = widget.pageController ??
+        PageController(
+          initialPage: _previousIndex,
+          keepPage: false,
+          viewportFraction: 1.0,
+        );
 
     final size = widget.calendarSize ?? MediaQuery.of(context).size;
     _itemHeight = (size.height - kBottomNavigationBarHeight - kToolbarHeight - _subtrahend) / (widget.divisor ?? 4);
     _itemWidth = size.width / 7;
 
-    _weekDays = widget.weekDays ?? ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+    final days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+    _weekDays = widget.weekDays ?? days.map((e) => DayModel(dayStringValue: e)).toList();
     super.initState();
   }
 
@@ -116,51 +141,68 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                onTap: () {
-                  _controller.previousPage(
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                  );
-                },
-                child: widget.previousIcon ??
-                    Icon(
-                      Icons.arrow_left_rounded,
-                      size: 50,
-                    ),
+              Visibility(
+                visible: widget.isLeftChevronVisible,
+                child: InkWell(
+                  onTap: () {
+                    if (widget.onLeftChevronTapped != null) {
+                      widget.onLeftChevronTapped!();
+                      return;
+                    }
+                    _controller.previousPage(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                  child: widget.previousIcon ??
+                      Icon(
+                        Icons.arrow_left_rounded,
+                        size: 50,
+                      ),
+                ),
               ),
               Text(
                 '${months[_currentDate.month - 1]} ${_currentDate.year}',
                 style: widget.headerStyle ?? textTheme.headline6,
               ),
-              InkWell(
-                onTap: () {
-                  _controller.nextPage(
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                  );
-                },
-                child: widget.nextIcon ??
-                    Icon(
-                      Icons.arrow_right_rounded,
-                      size: 50,
-                    ),
+              Visibility(
+                visible: widget.isRightChevronVisible,
+                child: InkWell(
+                  onTap: () {
+                    if (widget.onRightChevronTapped != null) {
+                      widget.onRightChevronTapped!();
+                      return;
+                    }
+                    _controller.nextPage(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                  child: widget.nextIcon ??
+                      Icon(
+                        Icons.arrow_right_rounded,
+                        size: 50,
+                      ),
+                ),
               ),
             ],
           ),
+          if (widget.headerSubtitle != null) widget.headerSubtitle!,
           Container(
             padding: EdgeInsets.symmetric(vertical: 12.0),
             color: widget.weekdaysBackgroundColor ?? Color(0xff509D56),
             child: Row(
               children: <Widget>[
-                for (String day in _weekDays)
+                for (DayModel day in _weekDays)
                   SizedBox(
                     width: _itemWidth,
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 4),
                       child: Text(
-                        day,
-                        style: widget.weekdaysHeaderTextStyle ?? textTheme.bodyText2!.copyWith(color: Colors.white),
+                        day.dayStringValue,
+                        style: day.textStyle ??
+                            widget.weekdaysHeaderTextStyle ??
+                            textTheme.bodyText2!.copyWith(color: Colors.white),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         textAlign: TextAlign.center,
@@ -190,6 +232,9 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
               onMoreEventsTapped: widget.onMoreEventsTapped,
               moreEventsBackgroundColor: widget.moreEventsBackgroundColor,
               moreEventsBannerTextStyle: widget.moreEventsBannerTextStyle,
+              dateBorderColor: widget.dateBorderColor,
+              currentDateColor: widget.currentDateColor,
+              dateTextStyle: widget.dateTextStyle,
             ),
           ),
         ],

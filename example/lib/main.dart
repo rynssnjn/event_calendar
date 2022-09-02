@@ -125,6 +125,23 @@ class _MyHomePageState extends State<MyHomePage> {
         calendarSize: MediaQuery.of(context).size,
         events: events,
         divisor: 3.6,
+        isLeftChevronVisible: false,
+        headerSubtitle: const Align(
+          alignment: Alignment.centerLeft,
+          child: Text('TEST'),
+        ),
+        weekDays: [
+          DayModel(dayStringValue: 'Mon'),
+          DayModel(dayStringValue: 'Tue'),
+          DayModel(dayStringValue: 'Wed'),
+          DayModel(dayStringValue: 'Thur'),
+          DayModel(dayStringValue: 'Fri'),
+          DayModel(
+              dayStringValue: 'Sat', textStyle: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.red)),
+          DayModel(
+              dayStringValue: 'Sun', textStyle: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.red)),
+        ],
+        dateBorderColor: Colors.red,
       ),
     );
   }

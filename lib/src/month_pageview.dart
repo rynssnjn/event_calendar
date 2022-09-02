@@ -10,6 +10,10 @@ class MonthPageView extends StatelessWidget {
     this.onMoreEventsTapped,
     this.moreEventsBackgroundColor,
     this.moreEventsBannerTextStyle,
+    // New Properties
+    this.dateBorderColor,
+    this.currentDateColor,
+    this.dateTextStyle,
   });
 
   final Function(int) onPageChanged;
@@ -19,6 +23,11 @@ class MonthPageView extends StatelessWidget {
   final VoidCallback? onMoreEventsTapped;
   final TextStyle? moreEventsBannerTextStyle;
   final Color? moreEventsBackgroundColor;
+
+  // New Properties
+  final Color? dateBorderColor;
+  final Color? currentDateColor;
+  final TextStyle? dateTextStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +41,9 @@ class MonthPageView extends StatelessWidget {
           onMoreEventsTapped: onMoreEventsTapped,
           moreEventsBackgroundColor: moreEventsBackgroundColor,
           moreEventsBannerTextStyle: moreEventsBannerTextStyle,
+          dateBorderColor: dateBorderColor,
+          currentDateColor: currentDateColor,
+          dateTextStyle: dateTextStyle,
         );
       },
     );

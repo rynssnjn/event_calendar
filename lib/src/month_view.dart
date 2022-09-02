@@ -14,6 +14,10 @@ class MonthView extends StatefulWidget {
     this.onMoreEventsTapped,
     this.moreEventsBackgroundColor,
     this.moreEventsBannerTextStyle,
+    // New Properties
+    this.dateBorderColor,
+    this.currentDateColor,
+    this.dateTextStyle,
   });
 
   final DateTime currentMonthDate;
@@ -21,6 +25,11 @@ class MonthView extends StatefulWidget {
   final VoidCallback? onMoreEventsTapped;
   final TextStyle? moreEventsBannerTextStyle;
   final Color? moreEventsBackgroundColor;
+
+  // New Properties
+  final Color? dateBorderColor;
+  final Color? currentDateColor;
+  final TextStyle? dateTextStyle;
 
   @override
   _MonthViewState createState() => _MonthViewState();
@@ -37,7 +46,9 @@ class _MonthViewState extends State<MonthView> {
   List<int> currentDayEventPositionsInStack = [];
 
   int get paddingBeforeStartDayOfMonth {
-    final dateTime = DateTime(widget.currentMonthDate.year, widget.currentMonthDate.month, 1);
+    // 0 if should start with Monday
+    // 1 if should start with Sunday
+    final dateTime = DateTime(widget.currentMonthDate.year, widget.currentMonthDate.month, 0);
     return dateTime.weekday == 7 ? 0 : dateTime.weekday;
   }
 
@@ -166,6 +177,9 @@ class _MonthViewState extends State<MonthView> {
             eventWidgets: eventWidgetsInDay,
             width: widget.dayWidgetSize.width,
             height: widget.dayWidgetSize.height,
+            borderColor: widget.dateBorderColor,
+            dateTextStyle: widget.dateTextStyle,
+            currentDateColor: widget.currentDateColor,
           ));
 
           if (sorted.length - numberOfEventsToDisplay > 0 && widget.onMoreEventsTapped != null) {
