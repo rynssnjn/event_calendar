@@ -1,4 +1,4 @@
-import 'package:event_calendar/src/month_view.dart';
+import 'package:event_calendar/event_calendar.dart';
 import 'package:flutter/material.dart';
 
 class MonthPageView extends StatelessWidget {
@@ -14,6 +14,7 @@ class MonthPageView extends StatelessWidget {
     this.dateBorderColor,
     this.currentDateColor,
     this.dateTextStyle,
+    required this.holder,
   });
 
   final Function(int) onPageChanged;
@@ -28,6 +29,7 @@ class MonthPageView extends StatelessWidget {
   final Color? dateBorderColor;
   final Color? currentDateColor;
   final TextStyle? dateTextStyle;
+  final CalendarHolder holder;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class MonthPageView extends StatelessWidget {
           dateBorderColor: dateBorderColor,
           currentDateColor: currentDateColor,
           dateTextStyle: dateTextStyle,
+          holder: holder,
         );
       },
     );

@@ -1,10 +1,4 @@
-import 'package:event_calendar/src/day_container.dart';
-import 'package:event_calendar/src/event_item.dart';
-import 'package:event_calendar/src/models/event_model.dart';
-import 'package:event_calendar/src/models/week_model.dart';
-import 'package:event_calendar/src/more_events.dart';
-import 'package:event_calendar/src/utilities/calendar_utils.dart';
-import 'package:event_calendar/src/week_view.dart';
+import 'package:event_calendar/event_calendar.dart';
 import 'package:flutter/material.dart';
 
 class MonthView extends StatefulWidget {
@@ -18,6 +12,7 @@ class MonthView extends StatefulWidget {
     this.dateBorderColor,
     this.currentDateColor,
     this.dateTextStyle,
+    required this.holder,
   });
 
   final DateTime currentMonthDate;
@@ -30,6 +25,7 @@ class MonthView extends StatefulWidget {
   final Color? dateBorderColor;
   final Color? currentDateColor;
   final TextStyle? dateTextStyle;
+  final CalendarHolder holder;
 
   @override
   _MonthViewState createState() => _MonthViewState();
@@ -48,7 +44,7 @@ class _MonthViewState extends State<MonthView> {
   int get paddingBeforeStartDayOfMonth {
     // 0 if should start with Monday
     // 1 if should start with Sunday
-    final dateTime = DateTime(widget.currentMonthDate.year, widget.currentMonthDate.month, 0);
+    final dateTime = DateTime(widget.currentMonthDate.year, widget.currentMonthDate.month, widget.holder.firstDayValue);
     return dateTime.weekday == 7 ? 0 : dateTime.weekday;
   }
 

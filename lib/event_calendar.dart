@@ -4,10 +4,12 @@ export 'src/event_calendar.dart';
 export 'src/models/event_model.dart' hide inBetweenMonths;
 
 export 'src/models/day_model.dart';
+export 'src/models/calendar_holder.dart';
 export 'src/models/event_model.dart';
 export 'src/models/week_model.dart';
 
 export 'src/utilities/calendar_utils.dart';
+export 'src/utilities/enums.dart';
 export 'src/utilities/typedefs.dart';
 
 export 'src/day_container.dart';

@@ -1,0 +1,4 @@
+enum FirstDay {
+  MONDAY,
+  SUNDAY,
+}

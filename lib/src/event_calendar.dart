@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:event_calendar/src/models/day_model.dart';
+import 'package:event_calendar/src/models/calendar_holder.dart';
 import 'package:event_calendar/src/models/event_model.dart';
 import 'package:event_calendar/src/month_pageview.dart';
 import 'package:event_calendar/src/utilities/typedefs.dart';
@@ -9,8 +10,8 @@ import 'package:flutter/material.dart';
 
 class EventCalendar extends StatefulWidget {
   EventCalendar({
+    required this.holder,
     this.onMoreEventsTapped,
-    this.weekDays,
     this.events,
     this.previousIcon,
     this.nextIcon,
@@ -31,10 +32,10 @@ class EventCalendar extends StatefulWidget {
     this.dateBorderColor,
     this.currentDateColor,
     this.dateTextStyle,
+    this.initialDate,
   });
 
   final VoidCallback? onMoreEventsTapped;
-  final List<DayModel>? weekDays;
   final List<EventModel>? events;
   final Widget? previousIcon;
   final Widget? nextIcon;
@@ -56,6 +57,8 @@ class EventCalendar extends StatefulWidget {
   final Color? dateBorderColor;
   final Color? currentDateColor;
   final TextStyle? dateTextStyle;
+  final DateTime? initialDate;
+  final CalendarHolder holder;
 
   @override
   _EventCalendarState createState() => _EventCalendarState();
@@ -65,13 +68,14 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
   late List<DayModel> _weekDays;
   late double _itemHeight;
   late double _itemWidth;
-  DateTime _currentDate = DateTime.now();
+  late DateTime _currentDate;
   late PageController _controller;
   int _previousIndex = 12;
 
   @override
   void initState() {
     EventModel.setEventList(widget.events!);
+    _currentDate = widget.initialDate ?? DateTime.now();
 
     _controller = widget.pageController ??
         PageController(
@@ -83,9 +87,7 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
     final size = widget.calendarSize ?? MediaQuery.of(context).size;
     _itemHeight = (size.height - kBottomNavigationBarHeight - kToolbarHeight - _subtrahend) / (widget.divisor ?? 4);
     _itemWidth = size.width / 7;
-
-    final days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
-    _weekDays = widget.weekDays ?? days.map((e) => DayModel(dayStringValue: e)).toList();
+    _weekDays = widget.holder.days;
     super.initState();
   }
 
@@ -119,20 +121,6 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ];
     return Container(
       color: Colors.white,
       child: Column(
@@ -162,7 +150,7 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
                 ),
               ),
               Text(
-                '${months[_currentDate.month - 1]} ${_currentDate.year}',
+                '${widget.holder.calendarMonths[_currentDate.month - 1]} ${_currentDate.year}',
                 style: widget.headerStyle ?? textTheme.headline6,
               ),
               Visibility(
@@ -235,6 +223,7 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
               dateBorderColor: widget.dateBorderColor,
               currentDateColor: widget.currentDateColor,
               dateTextStyle: widget.dateTextStyle,
+              holder: widget.holder,
             ),
           ),
         ],

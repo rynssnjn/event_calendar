@@ -22,15 +22,18 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _MyHomePageState();
-
-  // @override
-  // _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final events = [
+      EventModel(
+        title: '',
+        startTime: DateTime(2022, 9, 2),
+        endTime: DateTime(2022, 9, 10),
+        backgroundColor: const Color(0xff31C987),
+      ),
       EventModel(
         title: 'Meeting 1',
         startTime: DateTime(2022, 11, 1),
@@ -122,25 +125,15 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: const Color(0xff509D56),
       ),
       body: EventCalendar(
+        holder: CalendarHolder(),
         calendarSize: MediaQuery.of(context).size,
         events: events,
-        divisor: 3.6,
+        divisor: 10,
         isLeftChevronVisible: false,
         headerSubtitle: const Align(
           alignment: Alignment.centerLeft,
           child: Text('TEST'),
         ),
-        weekDays: [
-          DayModel(dayStringValue: 'Mon'),
-          DayModel(dayStringValue: 'Tue'),
-          DayModel(dayStringValue: 'Wed'),
-          DayModel(dayStringValue: 'Thur'),
-          DayModel(dayStringValue: 'Fri'),
-          DayModel(
-              dayStringValue: 'Sat', textStyle: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.red)),
-          DayModel(
-              dayStringValue: 'Sun', textStyle: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.red)),
-        ],
         dateBorderColor: Colors.red,
       ),
     );
