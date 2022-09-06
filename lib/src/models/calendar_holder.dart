@@ -43,11 +43,11 @@ class CalendarHolder {
         DayModel(dayStringValue: thursday, textStyle: weekdayTextStyle),
         DayModel(dayStringValue: friday, textStyle: weekdayTextStyle),
         DayModel(dayStringValue: saturday, textStyle: weekendTextStyle),
-        DayModel(dayStringValue: sunday, textStyle: weekdayTextStyle),
+        DayModel(dayStringValue: sunday, textStyle: weekendTextStyle),
       ];
 
   List<DayModel> get _sundayFirst => [
-        DayModel(dayStringValue: sunday, textStyle: weekdayTextStyle),
+        DayModel(dayStringValue: sunday, textStyle: weekendTextStyle),
         DayModel(dayStringValue: monday, textStyle: weekdayTextStyle),
         DayModel(dayStringValue: tuesday, textStyle: weekdayTextStyle),
         DayModel(dayStringValue: wednesday, textStyle: weekdayTextStyle),
