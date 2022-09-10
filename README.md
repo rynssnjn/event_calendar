@@ -2,6 +2,8 @@
 
 A package that displays a calendar with multiple events.
 
+![Screen Recording 2022-09-10 at 10 10 55 PM](https://user-images.githubusercontent.com/62531088/189487979-1e3c6603-9689-4089-b2fe-55640d98d847.gif)
+
 ## Installation
 
 ```yaml
