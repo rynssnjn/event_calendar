@@ -43,6 +43,9 @@ EventCalendar(
 ## Example
 
 ```dart
+import 'package:event_calendar/event_calendar.dart';
+import 'package:flutter/material.dart';
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
