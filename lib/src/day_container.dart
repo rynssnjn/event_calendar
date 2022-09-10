@@ -8,6 +8,10 @@ class DayContainer extends StatelessWidget {
     required this.currentMonthDate,
     required this.width,
     this.height = 158,
+    // New Properties
+    this.borderColor,
+    this.currentDateColor,
+    this.dateTextStyle,
   });
 
   final DateTime day;
@@ -16,12 +20,18 @@ class DayContainer extends StatelessWidget {
   final double width;
   final double height;
   final Function(DateTime day) onTap;
+
+  // New Properties
+  final Color? borderColor;
+  final Color? currentDateColor;
+  final TextStyle? dateTextStyle;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
-        border: Border.all(color: Colors.grey[300]!, width: 0.35),
+        border: Border.all(color: borderColor ?? Colors.grey[300]!, width: 0.35),
         color: Colors.white,
       ),
       width: width,
@@ -33,6 +43,8 @@ class DayContainer extends StatelessWidget {
           _DateWidget(
             date: day.day,
             currentMonthDate: currentMonthDate,
+            currentDateColor: currentDateColor,
+            dateTextStyle: dateTextStyle,
           ),
           ...eventWidgets
               .map((event) => Column(
@@ -52,9 +64,14 @@ class _DateWidget extends StatelessWidget {
   const _DateWidget({
     required this.currentMonthDate,
     required this.date,
+    this.currentDateColor,
+    this.dateTextStyle,
   });
+
   final DateTime currentMonthDate;
   final int date;
+  final Color? currentDateColor;
+  final TextStyle? dateTextStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -66,15 +83,16 @@ class _DateWidget extends StatelessWidget {
       height: 24,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isToday ? Color(0xff509D56) : Colors.transparent,
+        color: isToday ? currentDateColor ?? Color(0xff509D56) : Colors.transparent,
       ),
       child: Center(
         child: Text(
           '$date',
-          style: textTheme.headline4!.copyWith(
-            color: isToday ? Colors.white : Colors.black,
-            fontSize: 13,
-          ),
+          style: dateTextStyle?.copyWith(color: isToday ? Colors.white : Colors.black) ??
+              textTheme.headline4!.copyWith(
+                color: isToday ? Colors.white : Colors.black,
+                fontSize: 13,
+              ),
         ),
       ),
     );
