@@ -6,14 +6,12 @@ class EventItem extends StatelessWidget {
     required this.event,
     this.horizontalPadding = 4,
     this.verticalPadding = 4,
-    this.style,
   });
 
   final int verticalPadding;
   final int horizontalPadding;
 
   final EventModel event;
-  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +34,7 @@ class EventItem extends StatelessWidget {
         ),
         child: Text(
           event.title,
-          style: style ?? textTheme.bodyText2!.copyWith(fontSize: 14),
+          style: event.textStyle ?? textTheme.bodyText2!.copyWith(fontSize: 14),
           overflow: TextOverflow.ellipsis,
         ),
       ),

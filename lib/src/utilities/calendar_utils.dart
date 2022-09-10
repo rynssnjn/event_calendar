@@ -22,17 +22,17 @@ int getNumberOfDaysInMonth(DateTime date) {
 }
 
 int comparator(EventModel event1, EventModel event2) {
-  int compareOutput = event1.startTime.compareTo(event2.startTime);
+  int compareOutput = event1.startDate.compareTo(event2.startDate);
   if (compareOutput < 0)
     return -1; //makes event1 come before event2 in the result list
   else if (compareOutput > 0)
     return 1; //makes event2 come before event1 in the result list
   else {
-    return event1.startTime
-        .difference(event1.endTime)
+    return event1.startDate
+        .difference(event1.endDate)
         .inMilliseconds
         .abs()
-        .compareTo(event2.startTime.difference(event2.endTime).inMilliseconds.abs());
+        .compareTo(event2.startDate.difference(event2.endDate).inMilliseconds.abs());
   }
 }
 
@@ -41,8 +41,8 @@ List<EventModel> getEventsOn(DateTime date) {
   List<EventModel> eventsOnDate = [];
   for (int pos in eventPositions) {
     EventModel event = EventModel.eventsList[pos];
-    DateTime startDate = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
-    DateTime endDate = DateTime(event.endTime.year, event.endTime.month, event.endTime.day);
+    DateTime startDate = DateTime(event.startDate.year, event.startDate.month, event.startDate.day);
+    DateTime endDate = DateTime(event.endDate.year, event.endDate.month, event.endDate.day);
     if (date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0) {
       event.positionInStack = -1;
       eventsOnDate.add(event);

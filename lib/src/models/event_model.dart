@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 class EventModel {
   EventModel({
     required this.title,
-    required this.startTime,
-    required this.endTime,
+    required this.startDate,
+    required this.endDate,
     this.onSelect,
+    this.textStyle,
     this.backgroundColor,
   });
 
   final VoidCallback? onSelect;
   final String title;
-  final DateTime startTime;
-  final DateTime endTime;
+  final DateTime startDate;
+  final DateTime endDate;
+  final TextStyle? textStyle;
   final Color? backgroundColor;
 
   Color get color => backgroundColor ?? Colors.grey;
@@ -49,7 +51,7 @@ class EventModel {
   static void _updateMap(EventModel event, int position) {
     int index = 0;
     do {
-      DateTime dateTime = DateTime(event.startTime.year, event.startTime.month + index, 1);
+      DateTime dateTime = DateTime(event.startDate.year, event.startDate.month + index, 1);
       String key = _getKey(dateTime.month, dateTime.year);
       List<int>? pointers = _eventsDict?[key];
       if (pointers == null) {
@@ -58,7 +60,7 @@ class EventModel {
       pointers.add(position);
       _eventsDict?[key] = pointers;
       index++;
-    } while (index < inBetweenMonths(event.startTime, event.endTime));
+    } while (index < inBetweenMonths(event.startDate, event.endDate));
   }
 }
 

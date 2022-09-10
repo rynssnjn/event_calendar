@@ -1,14 +1,182 @@
 # event_calendar
 
-A new Flutter package.
+A package that displays a calendar with multiple events.
 
-## Getting Started
+![Screen Recording 2022-09-10 at 10 10 55 PM](https://user-images.githubusercontent.com/62531088/189487979-1e3c6603-9689-4089-b2fe-55640d98d847.gif)
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Installation
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+```yaml
+dependencies:
+    event_calendar: 0.1.0
+
+dependency_overrides:
+    event_calendar:
+        git: https://github.com/rynssnjn/event_calendar.git
+```
+
+## Usage
+
+Initializing an event. The [EventModel] requires a [String] for the `title` and a [DateTime] for both `startDate` and `endDate`. It can also accept an optional value for a [VoidCallback] `onSelect` that is triggered when the event is tapped as well as optional value for [TextStyle] and [Color] for customizing the UI of the event.
+
+```dart
+EventModel(
+    title: 'Meeting 1',
+    startDate: DateTime(2022, 9, 2),
+    endDate: DateTime(2022, 9, 10),
+    backgroundColor: const Color(0xff31C987),
+)
+```
+
+Displaying the calendar with events. Calling [EventCalendar] makes you display the calendar with events. It has a required property called `holder` wherein you can customize the user interface of the weekdays via [CalendarHolder], weekends and the months. It accepts a list of [EventModel] to show the events on the calendar itself.
+
+```dart
+EventCalendar(
+    holder: CalendarHolder(),
+    calendarSize: MediaQuery.of(context).size,
+    events: events,
+    divisor: 2,
+    dateBorderColor: Colors.black,
+)
+```
+
+## Example
+
+```dart
+import 'package:event_calendar/event_calendar.dart';
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    final events = [
+      EventModel(
+        title: 'Meeting 1',
+        startDate: DateTime(2022, 9, 2),
+        endDate: DateTime(2022, 9, 10),
+        backgroundColor: const Color(0xff31C987),
+      ),
+      EventModel(
+        title: 'Meeting 2',
+        startDate: DateTime(2022, 11, 1),
+        endDate: DateTime(2022, 12, 5),
+        backgroundColor: const Color(0xff31C987),
+      ),
+      EventModel(
+        title: 'Meeting 3',
+        startDate: DateTime(2022, 12, 3),
+        endDate: DateTime(2022, 12, 09),
+        backgroundColor: const Color(0xff892486),
+      ),
+      EventModel(
+        title: 'Meeting 4',
+        startDate: DateTime(2022, 12, 09),
+        endDate: DateTime(2022, 12, 12),
+        backgroundColor: const Color(0xff892486),
+      ),
+      EventModel(
+        title: 'Meeting 5',
+        startDate: DateTime(2022, 12, 12),
+        endDate: DateTime(2022, 12, 12),
+        backgroundColor: const Color(0xff892486),
+      ),
+      EventModel(
+        title: 'Meeting 6',
+        startDate: DateTime(2022, 12, 12),
+        endDate: DateTime(2022, 12, 15),
+        backgroundColor: const Color(0xff31C987),
+      ),
+      EventModel(
+        title: 'Meeting 7',
+        startDate: DateTime(2022, 12, 6),
+        endDate: DateTime(2022, 12, 7),
+        backgroundColor: const Color(0xff892486),
+      ),
+      EventModel(
+        title: 'Meeting 8',
+        startDate: DateTime(2022, 12, 12),
+        endDate: DateTime(2022, 12, 12),
+        backgroundColor: const Color(0xff31C987),
+      ),
+      EventModel(
+        title: 'Meeting 9',
+        startDate: DateTime(2022, 12, 12),
+        endDate: DateTime(2022, 12, 12),
+        backgroundColor: const Color(0xff31C987),
+      ),
+      EventModel(
+        title: 'Meeting 10',
+        startDate: DateTime(2022, 12, 13),
+        endDate: DateTime(2022, 12, 18),
+        backgroundColor: const Color(0xff31C987),
+      ),
+      EventModel(
+        title: 'Meeting 11',
+        startDate: DateTime(2022, 12, 15),
+        endDate: DateTime(2022, 12, 22),
+        backgroundColor: const Color(0xff892486),
+      ),
+      EventModel(
+        title: 'Meeting 12',
+        startDate: DateTime(2022, 12, 21),
+        endDate: DateTime(2022, 12, 24),
+        backgroundColor: const Color(0xff31C987),
+      ),
+      EventModel(
+        title: 'Meeting 13',
+        startDate: DateTime(2022, 12, 10),
+        endDate: DateTime(2022, 12, 10),
+        backgroundColor: const Color(0xff31C987),
+      ),
+      EventModel(
+        title: 'Meeting 14',
+        startDate: DateTime(2022, 12, 8),
+        endDate: DateTime(2022, 12, 10),
+        backgroundColor: const Color(0xff31C987),
+      ),
+      EventModel(
+        title: 'Rael birthday',
+        startDate: DateTime(2021, 04, 23),
+        endDate: DateTime(2021, 04, 23),
+        backgroundColor: const Color(0xff31C987),
+      ),
+    ];
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Test Calendar'),
+        backgroundColor: const Color(0xff509D56),
+      ),
+      body: EventCalendar(
+        holder: CalendarHolder(),
+        calendarSize: MediaQuery.of(context).size,
+        events: events,
+        divisor: 2,
+        dateBorderColor: Colors.black,
+      ),
+    );
+  }
+}
+```
