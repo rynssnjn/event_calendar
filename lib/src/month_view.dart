@@ -5,6 +5,7 @@ class MonthView extends StatefulWidget {
   MonthView({
     required this.currentMonthDate,
     required this.dayWidgetSize,
+    required this.holder,
     this.onMoreEventsTapped,
     this.moreEventsBackgroundColor,
     this.moreEventsBannerTextStyle,
@@ -12,7 +13,6 @@ class MonthView extends StatefulWidget {
     this.dateBorderColor,
     this.currentDateColor,
     this.dateTextStyle,
-    required this.holder,
   });
 
   final DateTime currentMonthDate;
@@ -60,7 +60,7 @@ class _MonthViewState extends State<MonthView> {
       }
       currentDayEventPositionsInStack.add(position);
       event.positionInStack = position;
-      final int eventDuration = event.endTime.difference(currentDay).inDays + 1;
+      final int eventDuration = event.endDate.difference(currentDay).inDays + 1;
       final int noOfDaysLeftInWeek =
           (numberOfDays - currentDayNumber) + 1 >= (7 - i) ? 7 - i : (numberOfDays - currentDayNumber) + 1;
       final double width =
@@ -82,8 +82,8 @@ class _MonthViewState extends State<MonthView> {
     List<EventModel> events = [];
     currentDayEventPositionsInStack = []; //resetting current day positions in stack
     for (EventModel event in eventsInCurrentWeek) {
-      DateTime startDate = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
-      DateTime endDate = DateTime(event.endTime.year, event.endTime.month, event.endTime.day);
+      DateTime startDate = DateTime(event.startDate.year, event.startDate.month, event.startDate.day);
+      DateTime endDate = DateTime(event.endDate.year, event.endDate.month, event.endDate.day);
       if (date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0) {
         if (events.contains(event)) continue;
         events.add(event);
@@ -132,8 +132,8 @@ class _MonthViewState extends State<MonthView> {
 
           if (numberOfEventsToDisplay != 0) {
             for (EventModel event in sorted) {
-              final DateTime startDate = DateTime(event.startTime.year, event.startTime.month, event.startTime.day);
-              final DateTime endDate = DateTime(event.endTime.year, event.endTime.month, event.endTime.day);
+              final DateTime startDate = DateTime(event.startDate.year, event.startDate.month, event.startDate.day);
+              final DateTime endDate = DateTime(event.endDate.year, event.endDate.month, event.endDate.day);
               if (eventWidgetsInDay.length == numberOfEventsToDisplay &&
                   eventWidgetsInDay.length >= currentDayEventPositionsInStack.length) {
                 break;
