@@ -36,6 +36,7 @@ class MonthPageView extends StatelessWidget {
     return PageView.builder(
       controller: controller,
       onPageChanged: (index) => onPageChanged(index),
+      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (_, __) {
         return MonthView(
           dayWidgetSize: size,
