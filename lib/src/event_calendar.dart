@@ -33,6 +33,7 @@ class EventCalendar extends StatefulWidget {
     this.currentDateColor,
     this.dateTextStyle,
     this.initialDate,
+    this.horizontalScrollPhysics,
   });
 
   final VoidCallback? onMoreEventsTapped;
@@ -58,6 +59,7 @@ class EventCalendar extends StatefulWidget {
   final Color? currentDateColor;
   final TextStyle? dateTextStyle;
   final DateTime? initialDate;
+  final ScrollPhysics? horizontalScrollPhysics;
   final CalendarHolder holder;
 
   @override
@@ -223,6 +225,7 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
               dateBorderColor: widget.dateBorderColor,
               currentDateColor: widget.currentDateColor,
               dateTextStyle: widget.dateTextStyle,
+              physics: widget.horizontalScrollPhysics,
               holder: widget.holder,
             ),
           ),
