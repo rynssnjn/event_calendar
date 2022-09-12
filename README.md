@@ -8,7 +8,7 @@ A package that displays a calendar with multiple events.
 
 ```yaml
 dependencies:
-    event_calendar: 0.1.0
+    event_calendar: 0.1.1
 
 dependency_overrides:
     event_calendar:

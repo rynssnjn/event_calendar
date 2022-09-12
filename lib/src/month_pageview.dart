@@ -14,6 +14,7 @@ class MonthPageView extends StatelessWidget {
     this.dateBorderColor,
     this.currentDateColor,
     this.dateTextStyle,
+    this.physics,
     required this.holder,
   });
 
@@ -29,6 +30,7 @@ class MonthPageView extends StatelessWidget {
   final Color? dateBorderColor;
   final Color? currentDateColor;
   final TextStyle? dateTextStyle;
+  final ScrollPhysics? physics;
   final CalendarHolder holder;
 
   @override
@@ -36,6 +38,7 @@ class MonthPageView extends StatelessWidget {
     return PageView.builder(
       controller: controller,
       onPageChanged: (index) => onPageChanged(index),
+      physics: physics,
       itemBuilder: (_, __) {
         return MonthView(
           dayWidgetSize: size,
