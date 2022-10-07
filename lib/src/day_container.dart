@@ -28,33 +28,35 @@ class DayContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        border: Border.all(color: borderColor ?? Colors.grey[300]!, width: 0.35),
-        color: Colors.white,
-      ),
-      width: width,
-      height: height,
-      padding: EdgeInsets.only(top: 5),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          _DateWidget(
-            date: day.day,
-            currentMonthDate: currentMonthDate,
-            currentDateColor: currentDateColor,
-            dateTextStyle: dateTextStyle,
-          ),
-          ...eventWidgets
-              .map((event) => Column(
-                    children: [
-                      event,
-                      SizedBox(height: 5),
-                    ],
-                  ))
-              .toList(),
-        ],
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          border: Border.all(color: borderColor ?? Colors.grey[300]!, width: 0.35),
+          color: Colors.white,
+        ),
+        width: width,
+        height: height,
+        padding: EdgeInsets.only(top: 5),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            _DateWidget(
+              date: day.day,
+              currentMonthDate: currentMonthDate,
+              currentDateColor: currentDateColor,
+              dateTextStyle: dateTextStyle,
+            ),
+            ...eventWidgets
+                .map((event) => Column(
+                      children: [
+                        event,
+                        SizedBox(height: 5),
+                      ],
+                    ))
+                .toList(),
+          ],
+        ),
       ),
     );
   }

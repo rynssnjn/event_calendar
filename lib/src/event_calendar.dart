@@ -123,113 +123,117 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return Container(
-      color: Colors.white,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Visibility(
-                visible: widget.isLeftChevronVisible,
-                child: InkWell(
-                  onTap: () {
-                    if (widget.onLeftChevronTapped != null) {
-                      widget.onLeftChevronTapped!();
-                      return;
-                    }
-                    _controller.previousPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: widget.previousIcon ??
-                      Icon(
-                        Icons.arrow_left_rounded,
-                        size: 50,
-                      ),
-                ),
-              ),
-              Text(
-                '${widget.holder.calendarMonths[_currentDate.month - 1]} ${_currentDate.year}',
-                style: widget.headerStyle ?? textTheme.headline6,
-              ),
-              Visibility(
-                visible: widget.isRightChevronVisible,
-                child: InkWell(
-                  onTap: () {
-                    if (widget.onRightChevronTapped != null) {
-                      widget.onRightChevronTapped!();
-                      return;
-                    }
-                    _controller.nextPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: widget.nextIcon ??
-                      Icon(
-                        Icons.arrow_right_rounded,
-                        size: 50,
-                      ),
-                ),
-              ),
-            ],
-          ),
-          if (widget.headerSubtitle != null) widget.headerSubtitle!,
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 12.0),
-            color: widget.weekdaysBackgroundColor ?? Color(0xff509D56),
-            child: Row(
-              children: <Widget>[
-                for (DayModel day in _weekDays)
-                  SizedBox(
-                    width: _itemWidth,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4),
-                      child: Text(
-                        day.dayStringValue,
-                        style: day.textStyle ??
-                            widget.weekdaysHeaderTextStyle ??
-                            textTheme.bodyText2!.copyWith(color: Colors.white),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+    return LayoutBuilder(
+      builder: (_, __) => Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Visibility(
+                  visible: widget.isLeftChevronVisible,
+                  child: InkWell(
+                    onTap: () {
+                      if (widget.onLeftChevronTapped != null) {
+                        widget.onLeftChevronTapped!();
+                        return;
+                      }
+                      _controller.previousPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    child: widget.previousIcon ??
+                        Icon(
+                          Icons.arrow_left_rounded,
+                          size: 50,
+                        ),
                   ),
+                ),
+                Text(
+                  '${widget.holder.calendarMonths[_currentDate.month - 1]} ${_currentDate.year}',
+                  style: widget.headerStyle ?? textTheme.headline6,
+                ),
+                Visibility(
+                  visible: widget.isRightChevronVisible,
+                  child: InkWell(
+                    onTap: () {
+                      if (widget.onRightChevronTapped != null) {
+                        widget.onRightChevronTapped!();
+                        return;
+                      }
+                      _controller.nextPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    child: widget.nextIcon ??
+                        Icon(
+                          Icons.arrow_right_rounded,
+                          size: 50,
+                        ),
+                  ),
+                ),
               ],
             ),
-          ),
-          Expanded(
-            child: MonthPageView(
-              onPageChanged: (index) {
-                int month = _currentDate.month;
-                if (index > _previousIndex) {
-                  month += index - _previousIndex;
-                } else if (index < _previousIndex) {
-                  month -= _previousIndex - index;
-                }
-                setState(() {
-                  _previousIndex = index;
-                  _currentDate = DateTime(_currentDate.year, month, 1);
-                });
-              },
-              controller: _controller,
-              size: Size(_itemWidth, _itemHeight),
-              date: _currentDate,
-              onMoreEventsTapped: widget.onMoreEventsTapped,
-              moreEventsBackgroundColor: widget.moreEventsBackgroundColor,
-              moreEventsBannerTextStyle: widget.moreEventsBannerTextStyle,
-              dateBorderColor: widget.dateBorderColor,
-              currentDateColor: widget.currentDateColor,
-              dateTextStyle: widget.dateTextStyle,
-              physics: widget.horizontalScrollPhysics,
-              holder: widget.holder,
+            if (widget.headerSubtitle != null) widget.headerSubtitle!,
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 12.0),
+              color: widget.weekdaysBackgroundColor ?? Color(0xff509D56),
+              child: Row(
+                children: <Widget>[
+                  for (DayModel day in _weekDays)
+                    Expanded(
+                      child: SizedBox(
+                        width: _itemWidth,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 4),
+                          child: Text(
+                            day.dayStringValue,
+                            style: day.textStyle ??
+                                widget.weekdaysHeaderTextStyle ??
+                                textTheme.bodyText2!.copyWith(color: Colors.white),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Expanded(
+              child: MonthPageView(
+                onPageChanged: (index) {
+                  int month = _currentDate.month;
+                  if (index > _previousIndex) {
+                    month += index - _previousIndex;
+                  } else if (index < _previousIndex) {
+                    month -= _previousIndex - index;
+                  }
+                  setState(() {
+                    _previousIndex = index;
+                    _currentDate = DateTime(_currentDate.year, month, 1);
+                  });
+                },
+                controller: _controller,
+                size: Size(_itemWidth, _itemHeight),
+                date: _currentDate,
+                onMoreEventsTapped: widget.onMoreEventsTapped,
+                moreEventsBackgroundColor: widget.moreEventsBackgroundColor,
+                moreEventsBannerTextStyle: widget.moreEventsBannerTextStyle,
+                dateBorderColor: widget.dateBorderColor,
+                currentDateColor: widget.currentDateColor,
+                dateTextStyle: widget.dateTextStyle,
+                physics: widget.horizontalScrollPhysics,
+                holder: widget.holder,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
