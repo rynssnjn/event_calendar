@@ -120,9 +120,11 @@ class _MonthViewState extends State<MonthView> {
       for (int i = 0; i < 7; i++, currentDayNumber++) {
         final List<Widget> eventWidgetsInDay = [];
         if (currentDayNumber <= 0 || currentDayNumber > numberOfDays) {
-          dayViewWidgets.add(Container(
-            width: widget.dayWidgetSize.width,
-            padding: EdgeInsets.only(top: 5),
+          dayViewWidgets.add(Expanded(
+            child: Container(
+              width: widget.dayWidgetSize.width,
+              padding: EdgeInsets.only(top: 5),
+            ),
           ));
         } else {
           final int numberOfEventsToDisplay = (widget.dayWidgetSize.height - dateTextHeight) ~/ eventHeight;
