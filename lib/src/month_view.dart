@@ -63,11 +63,11 @@ class _MonthViewState extends State<MonthView> {
       final int eventDuration = event.endDate.difference(currentDay).inDays + 1;
       final int noOfDaysLeftInWeek =
           (numberOfDays - currentDayNumber) + 1 >= (7 - i) ? 7 - i : (numberOfDays - currentDayNumber) + 1;
-      final double width =
-          (eventDuration <= noOfDaysLeftInWeek ? eventDuration : noOfDaysLeftInWeek) * widget.dayWidgetSize.width;
+      final dayWidgetSize = MediaQuery.of(context).size.width / 7;
+      final double width = (eventDuration <= noOfDaysLeftInWeek ? eventDuration : noOfDaysLeftInWeek) * (dayWidgetSize);
       stackWidgets.add(
         Positioned(
-          left: i * widget.dayWidgetSize.width,
+          left: i * dayWidgetSize,
           top: position * (eventHeight + 20) + dateTextHeight,
           width: width,
           child: EventItem(event: event),
