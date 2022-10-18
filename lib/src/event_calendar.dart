@@ -68,8 +68,6 @@ class EventCalendar extends StatefulWidget {
 
 class _EventCalendarState extends State<EventCalendar> with SingleTickerProviderStateMixin {
   late List<DayModel> _weekDays;
-  // late double _itemHeight;
-  // late double _itemWidth;
   late DateTime _currentDate;
   late PageController _controller;
   int _previousIndex = 12;
