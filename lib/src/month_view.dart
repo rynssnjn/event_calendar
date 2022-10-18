@@ -63,11 +63,11 @@ class _MonthViewState extends State<MonthView> {
       final int eventDuration = event.endDate.difference(currentDay).inDays + 1;
       final int noOfDaysLeftInWeek =
           (numberOfDays - currentDayNumber) + 1 >= (7 - i) ? 7 - i : (numberOfDays - currentDayNumber) + 1;
-      final dayWidgetSize = MediaQuery.of(context).size.width / 7;
-      final double width = (eventDuration <= noOfDaysLeftInWeek ? eventDuration : noOfDaysLeftInWeek) * (dayWidgetSize);
+      final double width =
+          (eventDuration <= noOfDaysLeftInWeek ? eventDuration : noOfDaysLeftInWeek) * widget.dayWidgetSize.width;
       stackWidgets.add(
         Positioned(
-          left: i * dayWidgetSize,
+          left: i * widget.dayWidgetSize.width,
           top: position * (eventHeight + 20) + dateTextHeight,
           width: width,
           child: EventItem(event: event),
@@ -204,10 +204,12 @@ class _MonthViewState extends State<MonthView> {
         stackWidgets: stackWidgets,
       ));
     }
-    return ListView(
-      children: [
-        Column(children: weekModels.map((week) => WeekView(week: week)).toList()),
-      ],
+    return LayoutBuilder(
+      builder: (_, __) => ListView(
+        children: [
+          Column(children: weekModels.map((week) => WeekView(week: week)).toList()),
+        ],
+      ),
     );
   }
 }

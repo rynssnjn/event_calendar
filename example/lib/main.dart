@@ -30,14 +30,14 @@ class _MyHomePageState extends State<MyHomePage> {
     final events = [
       EventModel(
         title: 'Meeting 1',
-        startDate: DateTime(2022, 9, 2),
-        endDate: DateTime(2022, 9, 10),
+        startDate: DateTime(2022, 10, 2),
+        endDate: DateTime(2022, 10, 3),
         backgroundColor: const Color(0xff31C987),
       ),
       EventModel(
         title: 'Meeting 2',
-        startDate: DateTime(2022, 11, 1),
-        endDate: DateTime(2022, 12, 5),
+        startDate: DateTime(2022, 10, 5),
+        endDate: DateTime(2022, 10, 8),
         backgroundColor: const Color(0xff31C987),
       ),
       EventModel(

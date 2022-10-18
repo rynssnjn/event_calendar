@@ -68,8 +68,8 @@ class EventCalendar extends StatefulWidget {
 
 class _EventCalendarState extends State<EventCalendar> with SingleTickerProviderStateMixin {
   late List<DayModel> _weekDays;
-  late double _itemHeight;
-  late double _itemWidth;
+  // late double _itemHeight;
+  // late double _itemWidth;
   late DateTime _currentDate;
   late PageController _controller;
   int _previousIndex = 12;
@@ -86,9 +86,6 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
           viewportFraction: 1.0,
         );
 
-    final size = widget.calendarSize ?? MediaQuery.of(context).size;
-    _itemHeight = (size.height - kBottomNavigationBarHeight - kToolbarHeight - _subtrahend) / (widget.divisor ?? 4);
-    _itemWidth = size.width / 7;
     _weekDays = widget.holder.days;
     super.initState();
   }
@@ -123,6 +120,13 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
+    final size = widget.calendarSize ?? MediaQuery.of(context).size;
+
+    final itemHeight =
+        (size.height - kBottomNavigationBarHeight - kToolbarHeight - _subtrahend) / (widget.divisor ?? 4);
+    final itemWidth = size.width / 7;
+
     return LayoutBuilder(
       builder: (_, __) => Container(
         color: Colors.white,
@@ -187,7 +191,7 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
                   for (DayModel day in _weekDays)
                     Expanded(
                       child: SizedBox(
-                        width: _itemWidth,
+                        width: itemWidth,
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 4),
                           child: Text(
@@ -220,7 +224,7 @@ class _EventCalendarState extends State<EventCalendar> with SingleTickerProvider
                   });
                 },
                 controller: _controller,
-                size: Size(_itemWidth, _itemHeight),
+                size: Size(itemWidth, itemHeight),
                 date: _currentDate,
                 onMoreEventsTapped: widget.onMoreEventsTapped,
                 moreEventsBackgroundColor: widget.moreEventsBackgroundColor,
